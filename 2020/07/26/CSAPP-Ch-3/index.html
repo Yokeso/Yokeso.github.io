@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="keywords" content="hexo,个人博客,blog,Yokeso" />
+  <meta name="description" content="Yokeso的个人博客" />
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://busuanzi.ibruce.info">
+  <link rel="dns-prefetch" href="https://at.alicdn.com">
+  
+  <link rel="dns-prefetch" href="https://widget.daovoice.io">
+  <link rel="dns-prefetch" href="https://widget-static-cdn.daovoice.io">
+  <link rel="dns-prefetch" href="https://im.daovoice.io">
+  
+  
+  <link rel="dns-prefetch" href="https://hm.baidu.com/">
+  
+  
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://api.github.com">
+  <link rel="dns-prefetch" href="https://avatars3.githubusercontent.com">
+  
+  <link rel="stylesheet" type="text/css" href="/./style/main.css">
+	<link rel="shortcut icon" href="/favicon.ico" title="Favicon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+	<title>CSAPP Ch.3</title>
+  
+  <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?awwssw1snsnsnn1ndndnndnd99j";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();
+  </script>
+  
+  
+    <script>(function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/1d3cd644.js","daovoice");daovoice('init',{app_id: "1d3cd644"});daovoice('update');
+  </script>
+  
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Yokeso" type="application/atom+xml">
+</head>
+<body>
+  <canvas id="pattern-placeholder" height="230"></canvas>
+<div class="navbar-header">
+  <a class="blog-title" href="/">Yokeso</a>
+  <a class="face-img" href="/">
+    <img src="https://pic3.zhimg.com/v2-8bcbe433a7a4ea0edc4f010bd12c3294_r.jpg">
+  </a>
+</div>
+<main>
+  <div class="article-title">
+    
+  
+  <h1 class="title">
+    CSAPP Ch.3
+  </h1>
+  
+
+
+    <ul class="article-info">
+      <li>
+        发布
+        <time datetime="2020-07-26T09:07:46.000Z" itemprop="datePublished">2020-07-26</time>
+      </li>
+      <li>
+        
+    更新 <time datetime="2020-08-14T13:16:51.636Z" itemprop="dateUpdated">2020-08-14</time>
+
+      </li>
+      <li id="busuanzi_container_page_pv">
+        阅读 <span id="busuanzi_value_page_pv"></span>
+      </li>
+    </ul>
+  </div>
+  <div class="container">
+    <div class="article">
+      <div class="content">
+        
+        <h2 id="CSAPP第三章"><a href="#CSAPP第三章" class="headerlink" title="CSAPP第三章"></a>CSAPP第三章</h2><h3 id="程序的机器级表示"><a href="#程序的机器级表示" class="headerlink" title="程序的机器级表示"></a>程序的机器级表示</h3><h4 id="3-1-历史观点"><a href="#3-1-历史观点" class="headerlink" title="3.1 历史观点"></a>3.1 历史观点</h4><p>Intel &amp; AMD</p>
+<h4 id="3-2-程序编码"><a href="#3-2-程序编码" class="headerlink" title="3.2 程序编码"></a>3.2 程序编码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">linux&gt;</span><span class="bash"> gcc -Og -o p p1.c p2.c</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>gcc</strong>： Linux上默认的编译器</p>
+</li>
+<li><p><strong>-Og</strong>:   编译选项，告诉编译器使用会生成符合原始C代码整体结构的机器代码编译优化等级</p>
+</li>
+</ul>
+<h5 id="gcc命令调用过程"><a href="#gcc命令调用过程" class="headerlink" title="gcc命令调用过程"></a>gcc命令调用过程</h5><p><img src="/2020/07/26/CSAPP-Ch-3/CSAPP-Ch-3%5Cgcc%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B.jpg" alt="gcc命令调用过程"></p>
+<p>用图片的形式描述一下就是这样的：</p>
+<p><img src="/2020/07/26/CSAPP-Ch-3/CSAPP-Ch-3%5Cgccppt.jpg" alt="gccppt"></p>
+<h5 id="3-2-1-机器级代码"><a href="#3-2-1-机器级代码" class="headerlink" title="3.2.1 机器级代码"></a>3.2.1 机器级代码</h5><ul>
+<li><strong>机器级编程的两种抽象</strong><ul>
+<li>指令集体系结构或指令集架构（Instruction Set Architexture,ISA）来定义机器级程序的格式和行为，它定义了处理器状态，指令格式以及每条指令对状态的影响。</li>
+<li>机器级程序使用的内存地址是虚拟地址，提供的内存模型看起来像一个非常大的数组。存储器系统的实际实现是将多个硬件存储器和操作系统软件组合起来。</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-2-2-代码示例"><a href="#3-2-2-代码示例" class="headerlink" title="3.2.2 代码示例"></a>3.2.2 代码示例</h5><p>以C代码文件<code>mstore.c</code>为例，在命令行上使用<code>-S</code>选项，可以看到C语言编译产生的汇编代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">Linux&gt;</span><span class="bash"> gcc -Og -S mstore.c</span></span><br></pre></td></tr></table></figure>
+
+<p>这时GCC会运行编译器，产生汇编文件<code>mstore.s</code>但是不做进一步操作</p>
+<p>如果用  <code>-c</code>命令行选项GCC会编译并汇编该代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">linux&gt;</span><span class="bash"> gcc -Og -c mstore.c</span></span><br></pre></td></tr></table></figure>
+
+<p>这样就会产生目标代码文件<code>mstore.o</code>它是二进制格式的，无法直接进行查看,想要查看机器代码的内容，可以通过<code>反汇编器(disassembler)</code>进行查看：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">linux&gt;</span><span class="bash"> objdump -d mstore.o</span></span><br></pre></td></tr></table></figure>
+
+<p>机器代码以及反汇编表示的特性：</p>
+<p><img src="/2020/07/26/CSAPP-Ch-3/CSAPP-Ch-3%5C%E7%89%B9%E6%80%A7.jpg" alt="机器代码以及反汇编表示的特性"></p>
+<h5 id="3-2-3-关于格式的注释"><a href="#3-2-3-关于格式的注释" class="headerlink" title="3.2.3 关于格式的注释"></a>3.2.3 关于格式的注释</h5><p>以书上内容为例</p>
+<p><img src="/2020/07/26/CSAPP-Ch-3/CSAPP-Ch-3%5C3.2.3.jpg" alt="example"></p>
+<p>所有以<font color="red"><code>.</code></font>开头的行都是指导汇编器和连接器工作的伪指令，我们通常可以忽略。</p>
+<p><img src="/2020/07/26/CSAPP-Ch-3/CSAPP-Ch-3%5C3.2.3.2.jpg" alt="机器代码以及反汇编表示的特性"></p>
+<h4 id="3-3-数据格式"><a href="#3-3-数据格式" class="headerlink" title="3.3 数据格式"></a>3.3 数据格式</h4><p><img src="/2020/07/26/CSAPP-Ch-3/CSAPP-Ch-3%5C3.3.jpg" alt="机器代码以及反汇编表示的特性"></p>
+<h4 id="3-4-访问信息"><a href="#3-4-访问信息" class="headerlink" title="3.4 访问信息"></a>3.4 访问信息</h4><h5 id="3-4-1-操作数指示符"><a href="#3-4-1-操作数指示符" class="headerlink" title="3.4.1 操作数指示符"></a>3.4.1 操作数指示符</h5><p>大多数指令具有一个或者多个操作符，用于指示出执行一个操作中要用的源数据值以及放置结果的目的地址值。不同种操作数可能被分为三类：</p>
+<ul>
+<li>立即数        <ul>
+<li>用来表示常数值</li>
+<li>书写方式是<code>$+标准C表示法表示的整数</code>，例如：<code>$-577，$0x1F</code></li>
+<li>不同指令允许的立即数值范围不同，汇编器会自动选择最紧凑的方式进行数值编码</li>
+</ul>
+</li>
+<li>寄存器        <ul>
+<li>表示某个寄存器中的内容，16个寄存器的低1字节、2字节、4字节和8字节中的一个作为操作数，分别对应8位、16位、32位以及64位。</li>
+<li>用r<sub>a</sub>来表示任意寄存器ａ，用引用R[r<sub>a</sub>]来表示它的值，（将寄存器集看做数组R）</li>
+</ul>
+</li>
+<li>内存引用<ul>
+<li>根据计算出来的地址（有效地址）访问某个内存位置。</li>
+<li>用M<sub>b</sub>[Addr]表示对存储在内存中地址Addr开始的b个字节进行引用,为了方便通常省略下标b</li>
+</ul>
+</li>
+</ul>
+<p>操作数格式标示图如下：</p>
+<p><img src="/2020/07/26/CSAPP-Ch-3/CSAPP-Ch-3%5C%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%BC%E5%BC%8F%E6%A0%87%E7%A4%BA%E5%9B%BE.jpg" alt="机器代码以及反汇编表示的特性"></p>
+
+      </div>
+        <div class="support-author">
+          <p>感谢您的阅读。 🙏
+          <a href="https://888.com/index.html" target="_blank">关于转载请看这里</a>
+            <!--<a class="btn-pay"  href="#pay-modal">¥ 打赏支持</a>-->
+          </p>
+        </div>
+        <!--
+            <div class="like ">
+              <div class="like-button">
+                <a id="like-note" href="">
+                  <i class="icon-heart"></i>喜欢
+                </a>
+              </div>
+              <span id="likes-count">256</span>
+            </div>
+        -->
+        <div class="otherLink">
+          <div class="previous">
+          </div>
+          <div class="next">
+          </div>
+        </div>
+        <div class="comments" id="comments">
+          
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+  const gitalk = new Gitalk({
+    clientID: '1a64a259684b5713abf1',
+    clientSecret: 'fbeb79e4e46138f88b662872e0c1242e0aed2a03',
+    repo: 'Yokeso.github.io',
+    owner: 'Yokeso',
+    admin: ['Yokeso'],
+    id: location.pathname,      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false
+  })
+
+  gitalk.render('comments');
+</script>
+
+
+        </div>
+      </div>
+    </div>
+   </div>
+</main>
+<div class="footer">
+  <div class="info">
+    <p>
+    <a href="https://hexo.io" target="_blank" rel="noopener"> Hexo </a> 强力驱动 |
+      <a href="https://github.com/Youthink/hexo-themes-yearn" target="_blank" rel="noopener"> Yearn </a>
+      主题
+    </p>
+    <p>&copy;2019-2020 Yokeso的博客</p>
+  </div>
+</div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script>//console
+  var consoleConfig = '\n欢迎访问 https://yokeso.github.io ，围观Yokeso的博客(づ｡◕‿‿◕｡)づ！\n,\n本博客使用 %cHexo%c 搭建，博客主题为Yokeso修改的 %chexo-themes-yearn%c ~~~ 🎉🎉🎉 \n\n源码 https://github.com/Youthink/hexo-themes-yearn \n\n如果喜欢可以 star 支持一下 ❤️~\n'.split(',');
+  var canConsole = true;
+  var consoleInfo = (function(consoleConfig) {
+  if (!canConsole || !consoleConfig || consoleConfig.length < 1) {
+    return;
+  }
+  var consoleColor = '#6190e8';
+  var _console;
+  var backgroundTextStyle = 'padding: 1px 5px;color: #fff;background: ' + consoleColor + ';'
+  var textStyle = 'color: ' + consoleColor + ';';
+
+  consoleConfig.map(o => {
+    var num = (o.match(/%c/g) || []).length;
+    if(/^http(s)?:\/\//.test(o)) {
+      console.log('%c     ', 'background: url(' + o + ') no-repeat left center;font-size: 180px;');
+      return;
+    }
+    if (num > 0) {
+      var logArguments = [];
+      for (var i = 0; i < num; i++) {
+        if (i % 2 === 0) {
+          logArguments.push(backgroundTextStyle);
+        } else {
+          logArguments.push(textStyle);
+        }
+      }
+      (_console = console).log.apply(_console, ['%c' + o, textStyle].concat(logArguments));
+      return;
+    }
+    console.log('%c' + o, textStyle);
+  });
+}(consoleConfig));</script><script type="text/javascript" src="/./js/main.js"></script>
+
+  <script src="//at.alicdn.com/t/font_159214_mvtxvg9me9.js"></script>
+</body>
+</html>
