@@ -712,7 +712,121 @@
 </ul>
 </li>
 </ul>
-
+<h4 id="4-2-4-伙伴系统"><a href="#4-2-4-伙伴系统" class="headerlink" title="4.2.4 伙伴系统"></a>4.2.4 伙伴系统</h4><p>伙伴系统方式是动态分区分配和固定分区分配的一种折中方案。</p>
+<p>伙伴系统规定，分区分配大小都是$2^k$ k为整数，1&lt;=k&lt;=m 2^m可以是整个内存的大小。系统中也要建立一个索引管理表，指明每个链表表头。</p>
+<h5 id="分区分配方法："><a href="#分区分配方法：" class="headerlink" title="分区分配方法："></a>分区分配方法：</h5><ul>
+<li>开始时，整个分区是2m，在系统运行过程中，由于不断划分，可能会形成若干不连续的空闲分区，将它们分类，每一类具有相同大小，且每类建立一个空闲分区双向链表，系统中有若干个双向链表。</li>
+<li>当需要为进程分配大小为n的区块时，首先计算一个i，使2i-1≤n ≤2i，然后在大小为2i的空闲分区链表中查找。</li>
+</ul>
+<h5 id="分区回收："><a href="#分区回收：" class="headerlink" title="分区回收："></a>分区回收：</h5><ul>
+<li>若回收大小为2i的分区，若有伙伴分区，则合并为2i+1的分区，进而可能需要合并为2i+2的分区……</li>
+<li>算法性能取决于查找空闲分区的位置和分割、回收空闲分区所花费的时间。</li>
+</ul>
+<p><img src="/2020/08/18/OS-ch-4/4.2-3.jpg" alt></p>
+<h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><ul>
+<li>快速搜索合并</li>
+<li>低外部碎片</li>
+</ul>
+<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><ul>
+<li>内部碎片。</li>
+<li>因为按2的幂划分块，如果碰上66单位大小，那么必须划分128单位大小的块。 </li>
+</ul>
+<h4 id="4-2-5-可重定位分区分配"><a href="#4-2-5-可重定位分区分配" class="headerlink" title="4.2.5 可重定位分区分配"></a>4.2.5 可重定位分区分配</h4><p>当内存驻留多个进程时，分配一个区后大部分情况下都是有剩余零头的，因此在一个新作业到达时，就有可能零头分区的总和超过新作业要求的分区，但每一个空闲分区的容量都不够。</p>
+<p>1.紧凑</p>
+<ul>
+<li><p>将各个占用分区向内存一段移动，使各个空闲分区聚集在另一端，合并为一个较大的空闲分区。</p>
+</li>
+<li><p>对占用分区进行内存数据搬移占用CPU时间，如果对占用分区中的程序进行浮动，则其重定位需要硬件支持。</p>
+</li>
+<li><p><font color="red">何时执行</font>：每个分区释放后或内存找不到满足条件的空闲分区。</p>
+</li>
+</ul>
+<h5 id="动态重定位分区分配算法"><a href="#动态重定位分区分配算法" class="headerlink" title="动态重定位分区分配算法"></a>动态重定位分区分配算法</h5><p><img src="/2020/08/18/OS-ch-4/4.2-4.jpg" alt></p>
+<h4 id="4-2-6-覆盖"><a href="#4-2-6-覆盖" class="headerlink" title="4.2.6 覆盖"></a>4.2.6 覆盖</h4><p>为了在较小的可用内存中运行较大的程序</p>
+<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><ul>
+<li>程序必要部分常驻内存</li>
+<li>不常用功能用其余模块实现，不使用时放外存，使用时放内存</li>
+<li>不存在调用关系的模块不封装到内存，从而实现互相覆盖。</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>程序员需要给程序分块并确定覆盖关系，增加复杂度</li>
+<li>进程在执行过程中要从外存装入，速度慢，用时间换空间</li>
+</ul>
+<h4 id="4-2-7-对换"><a href="#4-2-7-对换" class="headerlink" title="4.2.7 对换"></a>4.2.7 对换</h4><ul>
+<li><p>内存中有进程处于堵塞态，另一方面有就绪进程在外存等待</p>
+</li>
+<li><p>对换将暂时不能执行的程序或数据送到外存中，获得空闲内存来装入具备运行条件的进程或所需要的程序和数据</p>
+</li>
+<li><p>进程暂时不能执行原因</p>
+<ul>
+<li>阻塞态</li>
+<li>低优先级</li>
+</ul>
+</li>
+<li><p>交换单位为整个进程的地址空间</p>
+</li>
+<li><p>小型系统中与可重定位分区分配存储管理配合使用，称作roll in/roll out</p>
+</li>
+<li><p>加快进程换入，换出速度，因此采用连续分配，较少考虑碎片问题</p>
+</li>
+<li><p>建立磁盘的对换区，内存有空时找出就绪且换出时间最久的进程换入内存</p>
+</li>
+<li><p>优点</p>
+<ul>
+<li>增加并行进程数目，给用户适当响应时间，提高吞吐率</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>对换入换出的控制增加处理机开销，没有考虑执行过程中地址访问的统计特性</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2020/08/18/OS-ch-4/4.2-5.jpg" alt></p>
+<h3 id="4-3-基本分页存储管理方式"><a href="#4-3-基本分页存储管理方式" class="headerlink" title="4.3 基本分页存储管理方式"></a>4.3 基本分页存储管理方式</h3><h4 id="连续分配问题"><a href="#连续分配问题" class="headerlink" title="连续分配问题"></a>连续分配问题</h4><ul>
+<li>形成外碎片和内碎片</li>
+<li>近凑带来开销</li>
+</ul>
+<h4 id="离散分配"><a href="#离散分配" class="headerlink" title="离散分配"></a>离散分配</h4><ul>
+<li>基本单位是页：分页存储管理</li>
+<li>是段：分段存储管理</li>
+<li>分页存储管理不支持虚存技术，要求吧整个作业装入内存才能运行。</li>
+</ul>
+<h4 id="在页式管理中："><a href="#在页式管理中：" class="headerlink" title="在页式管理中："></a>在页式管理中：</h4><ul>
+<li>内存化为固定大小的页框，也叫页帧，物理页框</li>
+<li>进程的逻辑地址页分为同样大小的页，程序加载时需要分配所需全部页，这些页不必连续</li>
+<li>固定：计算机系统的内存容量固定，一个页容量也是固定的</li>
+</ul>
+<h4 id="进程装载："><a href="#进程装载：" class="headerlink" title="进程装载："></a>进程装载：</h4><ul>
+<li><p>装入进程时，找空闲页框，OS将页框分配给装入过程，每个页占用一个页框，进程占用的所有页框不要求连续</p>
+</li>
+<li><p>要解决逻辑地址到物理地址的映像需要硬件支持。</p>
+</li>
+</ul>
+<h4 id="基本分页管理中的数据结构"><a href="#基本分页管理中的数据结构" class="headerlink" title="基本分页管理中的数据结构"></a>基本分页管理中的数据结构</h4><ul>
+<li>进程页表：每个进程有一个页表，描述该进程的每个逻辑页占用的物理页框号。</li>
+<li>物理页面表：整个系统有一个物理页面表，描述所有物理页框的分配使用状况。数据结构：位示图，空闲页面链表；</li>
+<li>请求表：整个系统有一个请求表，描述系统内各个进程页表的位置和大小，用于地址转换；</li>
+<li>请求表也可以结合到各进程的PCB里，此时在PCB中记录本进程页表所在的物理页框号。上下文切换时，由OS将其加载到页表寄存器中。</li>
+</ul>
+<h4 id="逻辑地址结构"><a href="#逻辑地址结构" class="headerlink" title="逻辑地址结构"></a>逻辑地址结构</h4><p><img src="/2020/08/18/OS-ch-4/4.3-1.jpg" alt></p>
+<h4 id="页面大小的选择"><a href="#页面大小的选择" class="headerlink" title="页面大小的选择"></a>页面大小的选择</h4><ul>
+<li>和目前计算机的物理内存大小有关：2n。</li>
+<li>较小的页面，减小内碎片，但加大页表的长度，从而形成新的开销并增加换入、换出的开销；</li>
+<li>较大的页面，减小页表的长度，加大内碎片；管理开销小，交换时对外存I/O效率高。</li>
+<li>两者的折中。</li>
+</ul>
+<h4 id="页式管理的优缺点"><a href="#页式管理的优缺点" class="headerlink" title="页式管理的优缺点"></a>页式管理的优缺点</h4><p>优点：</p>
+<ul>
+<li>没有外碎片，每个内碎片不超过页大小。</li>
+<li>一个程序不必连续存放。便于改变程序占用空间的大小（主要指随着程序运行而动态生成的数据增多，要求地址空间相应增大，通常由系统调用完成而不是操作系统自动完成）。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>程序全部装入内存。</li>
+</ul>
+<h4 id="基本地址变换机构"><a href="#基本地址变换机构" class="headerlink" title="基本地址变换机构"></a>基本地址变换机构</h4><p>逻辑上连续的目标程序在物理内存中已经不能保证连续存放，支持页式管理的机器硬件上都有一套地址变换机构完成逻辑地址到物理地址的变换。<br>逻辑地址分为两部分：逻辑页号，页内偏移地址；<br>通过查进程页表，得物理页号，从而形成物理地址。</p>
+<h4 id="4-3-2快表"><a href="#4-3-2快表" class="headerlink" title="4.3.2快表"></a>4.3.2快表</h4><h4 id="4-3-3-两级和多级页表"><a href="#4-3-3-两级和多级页表" class="headerlink" title="4.3.3 两级和多级页表"></a>4.3.3 两级和多级页表</h4><h3 id="4-4-基本分段存储管理"><a href="#4-4-基本分段存储管理" class="headerlink" title="4.4 基本分段存储管理"></a>4.4 基本分段存储管理</h3>
           
             <div class='article_footer'>
               
@@ -799,7 +913,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-18T11:18:52+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-18T22:22:23+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Aug 18, 2020</p>
@@ -877,6 +991,37 @@
         
           <div class="prev-next">
             
+              <a class='prev' href='/2020/08/25/DSPtopic/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>DSPtopic</p>
+                <p class='content'>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</p>
+              </a>
+            
             
               <a class='next' href='/2020/08/17/OS-ch-3/'>
                 <p class='title'>OS-ch-3<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
@@ -937,7 +1082,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#存储器管理"><span class="toc-text">存储器管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存储器的管理功能"><span class="toc-text">存储器的管理功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑地址空间与物理地址空间"><span class="toc-text">逻辑地址空间与物理地址空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#地址空间"><span class="toc-text">地址空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑地址和物理地址"><span class="toc-text">逻辑地址和物理地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1程序的装入和链接"><span class="toc-text">4.1程序的装入和链接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1-程序的装入"><span class="toc-text">4.1-1 程序的装入</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#绝对装入"><span class="toc-text">绝对装入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-可重定位装入"><span class="toc-text">2.可重定位装入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-动态运行时装入"><span class="toc-text">3.动态运行时装入</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-程序的链接"><span class="toc-text">4.1.2 程序的链接</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#地址生成"><span class="toc-text">地址生成</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#地址安全检查"><span class="toc-text">地址安全检查</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-连续分配存储管理方式"><span class="toc-text">4.2 连续分配存储管理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单一连续分配"><span class="toc-text">单一连续分配</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#分区式存储管理"><span class="toc-text">分区式存储管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#内碎片和外碎片"><span class="toc-text">内碎片和外碎片</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#固定分区分配"><span class="toc-text">固定分区分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态分区分配"><span class="toc-text">动态分区分配</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#首次适应算法："><span class="toc-text">首次适应算法：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#循环适应算法："><span class="toc-text">循环适应算法：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#最佳适应法-best-fit"><span class="toc-text">最佳适应法(best-fit)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#最坏适应法-worst-fit"><span class="toc-text">最坏适应法(worst-fit)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#快速适应算法"><span class="toc-text">快速适应算法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态重定位分区分配"><span class="toc-text">动态重定位分区分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-3-动态分区分配"><span class="toc-text">4.2.3 动态分区分配</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#存储器管理"><span class="toc-text">存储器管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存储器的管理功能"><span class="toc-text">存储器的管理功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑地址空间与物理地址空间"><span class="toc-text">逻辑地址空间与物理地址空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#地址空间"><span class="toc-text">地址空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑地址和物理地址"><span class="toc-text">逻辑地址和物理地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1程序的装入和链接"><span class="toc-text">4.1程序的装入和链接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1-程序的装入"><span class="toc-text">4.1-1 程序的装入</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#绝对装入"><span class="toc-text">绝对装入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-可重定位装入"><span class="toc-text">2.可重定位装入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-动态运行时装入"><span class="toc-text">3.动态运行时装入</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-程序的链接"><span class="toc-text">4.1.2 程序的链接</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#地址生成"><span class="toc-text">地址生成</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#地址安全检查"><span class="toc-text">地址安全检查</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-连续分配存储管理方式"><span class="toc-text">4.2 连续分配存储管理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单一连续分配"><span class="toc-text">单一连续分配</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#分区式存储管理"><span class="toc-text">分区式存储管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#内碎片和外碎片"><span class="toc-text">内碎片和外碎片</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#固定分区分配"><span class="toc-text">固定分区分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态分区分配"><span class="toc-text">动态分区分配</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#首次适应算法："><span class="toc-text">首次适应算法：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#循环适应算法："><span class="toc-text">循环适应算法：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#最佳适应法-best-fit"><span class="toc-text">最佳适应法(best-fit)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#最坏适应法-worst-fit"><span class="toc-text">最坏适应法(worst-fit)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#快速适应算法"><span class="toc-text">快速适应算法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态重定位分区分配"><span class="toc-text">动态重定位分区分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-3-动态分区分配"><span class="toc-text">4.2.3 动态分区分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-4-伙伴系统"><span class="toc-text">4.2.4 伙伴系统</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#分区分配方法："><span class="toc-text">分区分配方法：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分区回收："><span class="toc-text">分区回收：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#优点："><span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#缺点："><span class="toc-text">缺点：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-5-可重定位分区分配"><span class="toc-text">4.2.5 可重定位分区分配</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#动态重定位分区分配算法"><span class="toc-text">动态重定位分区分配算法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-6-覆盖"><span class="toc-text">4.2.6 覆盖</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#原理"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#缺点"><span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-7-对换"><span class="toc-text">4.2.7 对换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-基本分页存储管理方式"><span class="toc-text">4.3 基本分页存储管理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#连续分配问题"><span class="toc-text">连续分配问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#离散分配"><span class="toc-text">离散分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在页式管理中："><span class="toc-text">在页式管理中：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程装载："><span class="toc-text">进程装载：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本分页管理中的数据结构"><span class="toc-text">基本分页管理中的数据结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑地址结构"><span class="toc-text">逻辑地址结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#页面大小的选择"><span class="toc-text">页面大小的选择</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#页式管理的优缺点"><span class="toc-text">页式管理的优缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本地址变换机构"><span class="toc-text">基本地址变换机构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-2快表"><span class="toc-text">4.3.2快表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-3-两级和多级页表"><span class="toc-text">4.3.3 两级和多级页表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-基本分段存储管理"><span class="toc-text">4.4 基本分段存储管理</span></a></li></ol></li></ol>
     </div>
   </section>
 
