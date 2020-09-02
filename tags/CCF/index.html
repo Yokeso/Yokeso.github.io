@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>Tag: -操作系统 -OS -ch3 - Yokeso</title>
+  <title>Tag: -CCF - Yokeso</title>
   
 
   
@@ -455,8 +455,8 @@
         
           
   <h2 class="title">
-    <a href="/2020/08/17/OS-ch-3/">
-      OS-ch-3
+    <a href="/2020/08/28/CCFtab/">
+      CCFtab
     </a>
   </h2>
 
@@ -486,7 +486,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 17, 2020</p>
+    <p>发布于：Aug 28, 2020</p>
   </a>
 </div>
 
@@ -503,7 +503,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/2020/08/17/OS-ch-3/" class="leancloud_visitors" data-flag-title="OS-ch-3">
+      <span id="/2020/08/28/CCFtab/" class="leancloud_visitors" data-flag-title="CCFtab">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -518,9 +518,9 @@
               
 <div class="new-meta-item comments-count">
   
-  <a href="/2020/08/17/OS-ch-3/#comments">
+  <a href="/2020/08/28/CCFtab/#comments">
     <i class="fas fa-comment-dots fa-fw"></i>
-    <span class="valine-comment-count" data-xid="/2020/08/17/OS-ch-3/">0</span>
+    <span class="valine-comment-count" data-xid="/2020/08/28/CCFtab/">0</span>
     <span class="leancloud-comments-count">&nbsp;</span>
   </a>
 </div>
@@ -545,431 +545,95 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="第三章-处理机调度与死锁"><a href="#第三章-处理机调度与死锁" class="headerlink" title="第三章 处理机调度与死锁"></a>第三章 处理机调度与死锁</h2><p>多道程序下，进程数目往往多于处理机数目。需要系统按某种算法动态将处理机分配给就绪队列中的进程，使之执行。</p>
-<h3 id="3-1-处理机调度层次"><a href="#3-1-处理机调度层次" class="headerlink" title="3.1 处理机调度层次"></a>3.1 处理机调度层次</h3><h5 id="高级调度"><a href="#高级调度" class="headerlink" title="高级调度"></a>高级调度</h5><ul>
-<li>又称作业调度或长期调度，根据某种算法决定将处于外存上后备队列的哪些作业调入内存</li>
-<li>作业：利用计算机进行一次运行所需工作的集合，要完成一个工作要先提交一次作业。一个作业可能由多个程序构成。</li>
-<li>PC机或者普通工作站和服务器上几乎没有作业的概念。</li>
-</ul>
-<h5 id="低级调度"><a href="#低级调度" class="headerlink" title="低级调度"></a>低级调度</h5><ul>
-<li>也称进程调度或短期调度，用于决定就绪队列中哪个进程获得处理机，之后派发程序将处理机分配给进程。</li>
-</ul>
-<h5 id="进程调度方式"><a href="#进程调度方式" class="headerlink" title="进程调度方式"></a>进程调度方式</h5><p>1）非抢占式调度</p>
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>1.常用注意要点</p>
+<p>2.常用stl详解以及使用方式简述</p>
 <ul>
-<li>一旦把处理机分配给某进程后，便让进程一直执行，直到进程阻塞，再把处理机分配给其他进程</li>
+<li>2.1 map</li>
+<li>2.2 unordered_map</li>
+<li>2.3 vector</li>
+<li>2.4 queue</li>
+<li>2.5 stack</li>
 </ul>
-<p>2）抢占式调度</p>
+<hr>
+<h3 id="常用注意要点"><a href="#常用注意要点" class="headerlink" title="常用注意要点"></a>常用注意要点</h3><h4 id="1-include-lt-bits-stdc-h-gt"><a href="#1-include-lt-bits-stdc-h-gt" class="headerlink" title="1.#include&lt;bits/stdc++.h&gt;"></a>1.#include&lt;bits/stdc++.h&gt;</h4><p>万能头文件，包含了所有的已知常用库</p>
+<h4 id="2-ios-sync-with-stdio-false"><a href="#2-ios-sync-with-stdio-false" class="headerlink" title="2.ios::sync_with_stdio(false);"></a>2.ios::sync_with_stdio(false);</h4><p>为了防止因为cin以及cout产生超时，将cin以及cout的缓冲区置为false</p>
+<h4 id="3-cin-tie-0"><a href="#3-cin-tie-0" class="headerlink" title="3.cin.tie(0);"></a>3.cin.tie(0);</h4><p>接触cin与cout的绑定，加快执行效率</p>
+<h3 id="常用stl详解以及使用方式"><a href="#常用stl详解以及使用方式" class="headerlink" title="常用stl详解以及使用方式"></a>常用stl详解以及使用方式</h3><h4 id="1-map"><a href="#1-map" class="headerlink" title="1.map"></a>1.map</h4><p>map是键-值对的组合，有以下的一些定义的方法：</p>
 <ul>
-<li>允许暂停一个正在执行的进程，将处理机分配给另一进程。<ul>
-<li>时间片轮转分给进程的时间片用完</li>
-<li>按照优先级调度，更高级优先权就绪</li>
-<li>短作业优先原则</li>
+<li><code>map&lt;k, v&gt; m;</code></li>
+<li><code>map&lt;k, v&gt; m(m2);</code></li>
+<li><code>map&lt;k, v&gt; m(b, e);</code></li>
 </ul>
-</li>
-</ul>
-<h5 id="中级调度"><a href="#中级调度" class="headerlink" title="中级调度"></a>中级调度</h5><ul>
-<li>条件允许的情况下，在外存挂起的进程集合中选择哪些进程激活并调回内存。</li>
-<li>提高效率，加快运行，调节复合，提高吞吐量。</li>
-<li>有时需要选择内存或者就绪的进程放在外存中，叫做挂起</li>
-<li>这些进程具备运行条件，内存稍有空闲时，中级调度把这些放入就绪队列，叫做对换。</li>
-</ul>
-<h5 id="三种调度之间的关系"><a href="#三种调度之间的关系" class="headerlink" title="三种调度之间的关系"></a>三种调度之间的关系</h5><p><img src="/2020/08/17/OS-ch-3/3.1-1.jpg" alt></p>
-<h4 id="3-1-2-调度队列模型"><a href="#3-1-2-调度队列模型" class="headerlink" title="3.1.2 调度队列模型"></a>3.1.2 调度队列模型</h4><h5 id="1-仅有进程调度"><a href="#1-仅有进程调度" class="headerlink" title="1.仅有进程调度"></a>1.仅有进程调度</h5><p><img src="/2020/08/17/OS-ch-3/3.1-2.jpg" alt></p>
-<h5 id="2-具有高级和低级的调度队列模型"><a href="#2-具有高级和低级的调度队列模型" class="headerlink" title="2.具有高级和低级的调度队列模型"></a>2.具有高级和低级的调度队列模型</h5><p><img src="/2020/08/17/OS-ch-3/3.1-3.jpg" alt></p>
-<h5 id="3-同时具有三级调度的模型"><a href="#3-同时具有三级调度的模型" class="headerlink" title="3.同时具有三级调度的模型"></a>3.同时具有三级调度的模型</h5><p><img src="/2020/08/17/OS-ch-3/3.1-4.jpg" alt></p>
-<h4 id="3-1-3-选择调度方式和算法的若干法则"><a href="#3-1-3-选择调度方式和算法的若干法则" class="headerlink" title="3.1.3 选择调度方式和算法的若干法则"></a>3.1.3 选择调度方式和算法的若干法则</h4><p>处理机调度算法的性能可以从不同角度去看，所以是一个综合的判断结果。</p>
-<h5 id="面向用户"><a href="#面向用户" class="headerlink" title="面向用户"></a>面向用户</h5><ul>
-<li>周转时间短</li>
-<li>响应时间快</li>
-<li>截至时间保证</li>
-<li>优先权准则</li>
-</ul>
-<h5 id="面向系统"><a href="#面向系统" class="headerlink" title="面向系统"></a>面向系统</h5><ul>
-<li>吞吐量高</li>
-<li>处理机利用率好</li>
-<li>资源平衡利用</li>
-</ul>
-<h5 id="周转时间"><a href="#周转时间" class="headerlink" title="周转时间"></a>周转时间</h5><p>作业从提交到完成所经历的时间（后备队列等待，CPU执行，就绪队列，阻塞队列等待，结果输出）</p>
-<p>平均周转时间：<br>$$<br>T=\frac{1}{n}\sum_{i=1}^{n}T_i<br>$$<br>带权周转时间<br>$$<br>W=\frac{1}{n}\sum_{i=1}^{n}\frac{T_i}{T_{si}}<br>$$<br>例：下面三道作业的平均周转时间和平均带权周转时间</p>
-<table>
-<thead>
-<tr>
-<th align="center">作业</th>
-<th align="center">提交时间/时</th>
-<th align="center">运行时间/h</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">10.00</td>
-<td align="center">2</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">10.10</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">10.25</td>
-<td align="center">0.25</td>
-</tr>
-</tbody></table>
-<p><img src="/2020/08/17/OS-ch-3/3.1-5.jpg" alt></p>
-<p>平均周转时间：<br>$$<br>T=\frac{2+2.9+3}{3}=2.63h<br>$$<br>平均带权周转时间：<br>$$<br>W=\frac{2+2.9+12}{3}=5.3h<br>$$</p>
-<h5 id="响应时间"><a href="#响应时间" class="headerlink" title="响应时间"></a>响应时间</h5><ul>
-<li>分时系统的重要指标</li>
-<li>用户输入一个请求到系统首次响应的时间</li>
-</ul>
-<h5 id="截至时间"><a href="#截至时间" class="headerlink" title="截至时间"></a>截至时间</h5><ul>
-<li>实时系统重要指标</li>
-<li>分为开始截至时间和完成截至时间</li>
-<li>某任务必须<font color="red">开始执行的最迟时间</font>或者<font color="red">必须完成的最迟时间</font></li>
-</ul>
-<h5 id="优先权原则"><a href="#优先权原则" class="headerlink" title="优先权原则"></a>优先权原则</h5><ul>
-<li>批处理，分时，实时系统都可遵循</li>
-<li>可以使关键人物达到最好目标</li>
-<li>公平性：不会因为进程本身的特性使上述指标过分恶化</li>
-</ul>
-<h5 id="面向系统准则"><a href="#面向系统准则" class="headerlink" title="面向系统准则"></a>面向系统准则</h5><ul>
-<li><p>吞吐量</p>
+<p>上述第一种方法定义了一个名为m的空的map对象；第二种方法创建了m2的副本m；第三种方法创建了map对象m，并且存储迭代器b和e范围内的所有元素的副本。</p>
+<p>map的value_type是存储元素的键以及值的pair类型，键为const。</p>
+<h5 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h5><p>insert函数的插入方法主要有如下：</p>
 <ul>
-<li>批处理系统的重要指标</li>
-<li>吞吐量指时间内完成的作业数，和作业本身特性或者调度算法都有关系</li>
+<li><code>m.insert(e)</code></li>
+<li><code>m.insert(beg, end)</code></li>
+<li><code>m.insert(iter, e)</code></li>
 </ul>
-</li>
-<li><p>处理及利用率高</p>
+<p>上述的e一个value_type类型的值。beg和end标记的是迭代器的开始和结束。</p>
+<p>两种插入方法如下面的例子所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; mp;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i ++)&#123;</span><br><span class="line">                mp[i] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">10</span>; i &lt; <span class="number">20</span>; i++)&#123;</span><br><span class="line">                mp.insert(make_pair(i, i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator it;</span><br><span class="line">        <span class="keyword">for</span> (it = mp.<span class="built_in">begin</span>(); it != mp.<span class="built_in">end</span>(); it++)&#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"%d--&gt;%d\n"</span>, it-&gt;first, it-&gt;second);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Map中可以利用结构体作为key值，但是要对小于号进行符号重载</p>
+<p>例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	ll x;</span><br><span class="line">	ll y;</span><br><span class="line">	<span class="keyword">bool</span> <span class="keyword">operator</span> &lt; (<span class="keyword">const</span> Point &amp; a) <span class="keyword">const</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> x&lt;a.x;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h5><p>上述采用下标的方法读取map中元素时，若map中不存在该元素，则会在map容器中插入一个新的元素。</p>
+<p>因此，若只是查找该元素是否存在，可以使用函数<code>count(k)</code>，该函数返回的是k出现的次数；若是想取得key对应的值，可以使用函数<code>find(k)</code>，该函数返回的是指向该元素的迭代器。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;::iterator it_find;</span><br><span class="line">it_find = mp.<span class="built_in">find</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span> (it_find != mp.<span class="built_in">end</span>())&#123;</span><br><span class="line">      it_find-&gt;second = <span class="number">20</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"no!\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>find一定会使用迭代器，所以要学会对迭代器进行初始化</p>
+<p><code>map&lt;int, int&gt;::iterator it_find;</code></p>
+<h5 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h5><p>从map中删除元素的函数是<code>erase()</code>，该函数有如下的三种形式：</p>
 <ul>
-<li>大中型主机多用户系统指标，PC一般不考虑</li>
+<li><code>m.erase(k)</code></li>
+<li><code>m.erase(p)</code></li>
+<li><code>m.erase(b, e)</code></li>
 </ul>
-</li>
-<li><p>各种资源平衡利用</p>
-<ul>
-<li>大中型多用户系统性能指标。如CPU繁忙的作业和I/O繁忙</li>
-</ul>
-</li>
-</ul>
-<h5 id="调度算法本身的调度性能准则"><a href="#调度算法本身的调度性能准则" class="headerlink" title="调度算法本身的调度性能准则"></a>调度算法本身的调度性能准则</h5><ul>
-<li>易于实现</li>
-<li>执行开销比</li>
-</ul>
-<h3 id="3-2-调度算法"><a href="#3-2-调度算法" class="headerlink" title="3.2 调度算法"></a>3.2 调度算法</h3><p>OS中的调度实质时一种资源分配</p>
-<p>有的调度算法使用于作业调度，有的算法适用与作业调度，有的两者都适应。</p>
-<h4 id="3-2-1-先来先服务和短作业优先算法"><a href="#3-2-1-先来先服务和短作业优先算法" class="headerlink" title="3.2.1 先来先服务和短作业优先算法"></a>3.2.1 先来先服务和短作业优先算法</h4><h5 id="FCFS算法"><a href="#FCFS算法" class="headerlink" title="FCFS算法"></a>FCFS算法</h5><ul>
-<li><p>算法描述</p>
-<ul>
-<li>按照作业或者进程变为就绪态的先后顺序，分派CPU，当前作业或进程占用CPU，直到执行完或阻塞才让出（非抢占）</li>
-<li>在作业或进程唤醒后，不立即恢复执行，而是排队，</li>
-<li>是最简单的算法</li>
-</ul>
-</li>
-<li><p>FCFS的特点</p>
-<ul>
-<li>有利长作业，不利短作业</li>
-<li>有利于CPU繁忙，不利于IO繁忙</li>
-</ul>
-</li>
-</ul>
-<p><img src="/2020/08/17/OS-ch-3/3.2-1.jpg" alt></p>
-<h5 id="短作业优先调度算法"><a href="#短作业优先调度算法" class="headerlink" title="短作业优先调度算法"></a>短作业优先调度算法</h5><ul>
-<li><p>算法描述</p>
-<ul>
-<li>对预计执行时间短的作业（进程）优先分派处理机。通常后来的短作业不抢先正在执行的作业</li>
-<li>是对FCFS算法的改进，目标是减少平均周转时间</li>
-</ul>
-</li>
-<li><p>SJF的特点</p>
-<ul>
-<li>优点<ul>
-<li>比FCFS改善平均周转时间和平均带权周转时间，缩短作业等待时间</li>
-<li>提高系统吞吐量</li>
-</ul>
-</li>
-<li>缺点<ul>
-<li>对长作业不利，可能长时间得不到执行</li>
-<li>未能依据作业的紧迫程度来划分优先级</li>
-<li>难以准确估计作业（进程）的执行时间，从而影响调度性能</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>SJF的变形：<br>最短剩余时间优先 SRT（允许比当前进程剩余时间更短的进程来抢占）</p>
-<p>最高相应比优先 HRRN （相应比R=（等待时间+要求执行时间）/要求执行时间，FCFS和SJF的折中）</p>
-<h4 id="3-2-2优先权调度算法"><a href="#3-2-2优先权调度算法" class="headerlink" title="3.2.2优先权调度算法"></a>3.2.2优先权调度算法</h4><p>本算法适用于祖业调度和进程调度</p>
-<p>算法用于作业调度时，系统从后备队列中选择优先权最高的作业装入内存</p>
-<p>用于进程调度，系统吧处理机派发给就绪队列中优先权的最高进程</p>
-<ul>
-<li><p>抢占式：当前进程时间片未用完时就可被优先级更高的进程抢占CPU</p>
-</li>
-<li><p>非抢占式：除非自愿或时间片到，当前进程不可被优先级更高的进程抢用CPU</p>
-</li>
-<li><p>可抢占程度越高，对实时系统满足越好</p>
-</li>
-</ul>
-<p><img src="/2020/08/17/OS-ch-3/3.2-2.jpg" alt></p>
-<p><img src="/2020/08/17/OS-ch-3/3.2-3.jpg" alt></p>
-<p>优先权的类型</p>
-<p>静态优先级</p>
-<ul>
-<li><p>创建进程时就确定，直到进程终止前都不改变。通常是一个整数。</p>
-</li>
-<li><p>依据：</p>
-<ul>
-<li>进程类型（系统进程优先级较高）</li>
-<li>对资源的需求（对CPU和内存需求较少的进程，优先级较高）</li>
-<li>用户要求（紧迫程度和付费多少） </li>
-</ul>
-</li>
-<li><p>特点：</p>
-<ul>
-<li>简单，系统开销小</li>
-<li>不精确，仅在要求不高的系统中使用</li>
-</ul>
-</li>
-<li><p>动态优先级</p>
-</li>
-<li><p>在创建进程时赋予的优先级，在进程运行过程中可以自动改变，以便获得更好的调度性能。</p>
-</li>
-<li><p>如：</p>
-<ul>
-<li>在就绪队列中，等待时间延长则优先级提高，从而使优先级较低的进程在等待足够的时间后，其优先级提高到可被调度执行；</li>
-<li>进程每执行一个时间片，就降低其优先级，从而一个进程持续执行时，其优先级降低到出让CPU。 </li>
-</ul>
-</li>
-</ul>
-<h5 id="高响应比优先调度算法-HRRN-HRN"><a href="#高响应比优先调度算法-HRRN-HRN" class="headerlink" title="高响应比优先调度算法(HRRN,HRN)"></a>高响应比优先调度算法(HRRN,HRN)</h5><ul>
-<li><p>响应比R<br>   = (等待时间 + 要求执行时间) / 要求执行时间<br>   ＝1＋等待时间/要求执行时间</p>
-</li>
-<li><p>是FCFS和SJF的折衷：</p>
-<ul>
-<li>作业等待时间相同，服务时间越短，优先权越高–SJF；</li>
-<li>要求服务时间相同，等待时间越长，优先权越高–FCFS；长作业随着等待时间的增加，优先权增加。 </li>
-</ul>
-</li>
-<li><p>缺点：</p>
-<ul>
-<li>响应比的计算增加系统开销</li>
-</ul>
-</li>
-</ul>
-<h4 id="3-2-3基于时间片的轮转调度算法"><a href="#3-2-3基于时间片的轮转调度算法" class="headerlink" title="3.2.3基于时间片的轮转调度算法"></a>3.2.3基于时间片的轮转调度算法</h4><p>时间片轮转法（Round Robin, RR)</p>
-<ul>
-<li>本算法主要用于微观调度（进程调度）</li>
-<li>设计目标是提高资源利用率</li>
-<li>基本思路是通过时间片轮转，提高进程并发性和响应时间特性，从而提高资源利用率 </li>
-</ul>
-<p>算法描述</p>
-<ul>
-<li>将系统中所有的就绪进程按照FCFS原则，排成一个队列。</li>
-<li>每次调度时将CPU分派给队首进程，让其执行一个时间片。在一个时间片结束时，发生时钟中断。调度程序据此暂停当前进程的执行，将其送到就绪队列的末尾，并通过上下文切换执行当前的队首进程。</li>
-<li>时间片的长度从几个ms到几百ms。</li>
-<li>进程可以未使用完一个时间片，就出让CPU（如阻塞）。</li>
-</ul>
-<p>时间片长度的确定</p>
-<ul>
-<li>时间片长度变化的影响<ul>
-<li>过长－&gt;退化为FCFS算法</li>
-<li>过短－&gt;用户的一次请求需要多个时间片才能处理完，上下文切换次数增加，响应时间长。</li>
-</ul>
-</li>
-<li>就绪进程的数目：数目越多，时间片越小</li>
-<li>系统的处理能力：应当使用户输入通常在一个时间片内能处理完，否则使响应时间，平均周转时间和平均带权周转时间延长。</li>
-</ul>
-<h5 id="多级反馈队列调度算法"><a href="#多级反馈队列调度算法" class="headerlink" title="多级反馈队列调度算法"></a>多级反馈队列调度算法</h5><p>多级反馈队列算法是时间片轮转算法和优先级算法的综合和发展。</p>
-<p>1) 算法描述</p>
-<ul>
-<li>设置多个就绪队列，分别赋予不同的优先级，队列1的优先级最高。每个队列执行时间片的长度也不同，规定优先级越低则时间片越长。</li>
-<li>假设有三个就绪队列：<ul>
-<li>Q1－－时间片为8</li>
-<li>Q2－－时间片为16</li>
-<li>Q3－－FCFS</li>
-</ul>
-</li>
-<li>新进程进入内存后，先投入队列1的末尾，若按队列1一个时间片未能执行完，则降低投入到队列2的末尾，若仍未完成，降低到最后的队列，按FCFS算法调度直到完成。</li>
-<li>仅当较高优先级的队列为空，才调度较低优先级的队列中的进程执行。如果进程执行时有新进程进入较高优先级的队列，则抢先执行新进程，并把被抢先的进程投入原队列的末尾。</li>
-</ul>
-<p>2）算法性能</p>
-<ul>
-<li>终端型进程：让其进入最高优先级队列，以及时响应I/O交互。通常执行一个小时间片，可处理完一次I/O请求的数据，然后转入到阻塞队列。</li>
-<li>计算型进程（长批处理作业）：每次都执行完时间片，进入更低级队列。最终采用最大时间片来执行，减少调度次数。<br>短批处理作业：  先放入第1级，一般经过1，2级即可完成。</li>
-</ul>
-<p>3）优点：</p>
-<ul>
-<li>为提高系统吞吐量和缩短平均周转时间而照顾短进程</li>
-<li>为获得较好的I/O设备利用率和缩短响应时间而照顾I/O型进程</li>
-<li>不必估计进程的执行时间，动态调节</li>
-</ul>
-<h3 id="3-4-实时调度"><a href="#3-4-实时调度" class="headerlink" title="3.4 实时调度"></a>3.4 实时调度</h3><h4 id="3-4-1实现实时调度的基本条件"><a href="#3-4-1实现实时调度的基本条件" class="headerlink" title="3.4.1实现实时调度的基本条件"></a>3.4.1实现实时调度的基本条件</h4><ul>
-<li>提供必要信息（就绪时间，开始截至时间，资源要求，优先级）</li>
-<li>系统处理能力强:    单处理机： $\sum_{i=1}^{m}\frac{C_i}{P_i}&lt;=1$，多处理机： $\sum_{i=1}^{m}\frac{C_i}{P_i}&lt;=N$</li>
-<li>采用抢占式调度机制</li>
-<li>具有快速切换机制 （快速响应中断，快速任务分派）</li>
-</ul>
-<h4 id="3-4-2-实时调度算法分类"><a href="#3-4-2-实时调度算法分类" class="headerlink" title="3.4.2 实时调度算法分类"></a>3.4.2 实时调度算法分类</h4><h5 id="非抢占式调度算法"><a href="#非抢占式调度算法" class="headerlink" title="非抢占式调度算法"></a>非抢占式调度算法</h5><p>1） 基于时钟中断的抢占式优先权调度算法</p>
-<ul>
-<li>在某实时任务到达后，若其优先级高于占有处理机的进程优先级，并不抢占，等到时钟中断到达时再抢占。<br>调度延迟可降为几十至几毫秒。</li>
-</ul>
-<p>2）立即抢占</p>
-<ul>
-<li>操作系统具有快速响应外部中断的能力。一旦出现外部中断，只要当前进程未处于临界区，立即抢占CPU。</li>
-</ul>
-<h5 id="非抢占式优先调度算法"><a href="#非抢占式优先调度算法" class="headerlink" title="非抢占式优先调度算法"></a>非抢占式优先调度算法</h5><ul>
-<li>要求严格的任务赋予高优先级，执行后其他任务才能调度执行</li>
-</ul>
-<h4 id="3-4-3-常用的几种实时调度算法"><a href="#3-4-3-常用的几种实时调度算法" class="headerlink" title="3.4.3 常用的几种实时调度算法"></a>3.4.3 常用的几种实时调度算法</h4><ol>
-<li>最早截止时间优先 EDF（Earliest Deadline First）</li>
-</ol>
-<ul>
-<li>根据任务的开始截止时间确定任务的优先级。具有最早截止时间的任务排在队列的最前面。</li>
-<li>即可用于抢占式调度，又可用于非抢占式调度。</li>
-</ul>
-<ol start="2">
-<li>最低松弛度优先LLF（Least Laxity First）算法</li>
-</ol>
-<ul>
-<li>任务的紧急程度愈高，该任务的优先级愈高。</li>
-<li>松弛度 = 必须完成时间-本身运行时间-当前时间</li>
-<li>如，t=0时，某任务在200ms时必须完成，他本身执行的时间是100ms，则其松弛度为100ms。</li>
-<li>LLF算法按松弛度排就绪队列，松弛度最低的排在队列最前面，优先被调度执行。</li>
-<li>LLF主要用于可抢占调度方式中。</li>
-</ul>
-<h3 id="3-5-死锁产生的原因和必要条件"><a href="#3-5-死锁产生的原因和必要条件" class="headerlink" title="3.5 死锁产生的原因和必要条件"></a>3.5 死锁产生的原因和必要条件</h3><p>死锁：多个进程争夺共享资源出现的僵局。</p>
-<p>产生原因：</p>
-<ul>
-<li>竞争资源(不可剥夺资源)<ul>
-<li>资源数目不能满足进程需要</li>
-<li>双方都有部分资源，同时请求对方已占有的资源</li>
-<li>硬件中的中断，信号，消息，缓冲区数据</li>
-</ul>
-</li>
-<li>顺序不当<ul>
-<li>进程运行过程中，请求和释放资源顺序不当</li>
-<li>多个进程并发执行，相互的推进顺序不确定，可能会导致两种结果：不出现死锁和出现死锁。</li>
-</ul>
-</li>
-</ul>
-<h4 id="3-5-2-产生死锁的必要条件"><a href="#3-5-2-产生死锁的必要条件" class="headerlink" title="3.5.2 产生死锁的必要条件"></a>3.5.2 产生死锁的必要条件</h4><p>只有4个条件都满足时，才会出现死锁。</p>
-<ul>
-<li>互斥：任一时刻只允许一个进程使用资源</li>
-<li>请求和保持：进程保持了至少一个资源，但又提出了新的资源请求，该资源又被其他进程占用。</li>
-<li>不剥夺：进程已经占用的资源，未使用完，不能被剥夺。</li>
-<li>环路等待：存在进程－资源环形链，即有进程集合{P0, P1, P2,….Pn},P0等待P1占用的资源，P1等待P2占用的资源…..Pn等待P0占用的资源。    </li>
-</ul>
-<h4 id="3-5-3-处理死锁办法"><a href="#3-5-3-处理死锁办法" class="headerlink" title="3.5.3 处理死锁办法"></a>3.5.3 处理死锁办法</h4><ul>
-<li>预防死锁<ul>
-<li>采用某种策略，限制并发进程对资源的请求，使系统在任何时刻都不同时满足死锁的四个必要条件</li>
-</ul>
-</li>
-<li>避免死锁<ul>
-<li>在资源的动态分配过程中，防止系统进入不安全状态。</li>
-</ul>
-</li>
-<li>检测死锁<ul>
-<li>允许系统进入死锁，但系统及时检测，并采取措施。</li>
-</ul>
-</li>
-<li>解除死锁<ul>
-<li>当检测到系统进入了死锁，采取措施解除。</li>
-</ul>
-</li>
-</ul>
-<p><img src="/2020/08/17/OS-ch-3/3.6-1.jpg" alt></p>
-<p><img src="/2020/08/17/OS-ch-3/3.6-2.jpg" alt></p>
-<p><img src="/2020/08/17/OS-ch-3/3.6-3.jpg" alt></p>
-<h4 id="3-6-2-系统的安全状态"><a href="#3-6-2-系统的安全状态" class="headerlink" title="3.6.2 系统的安全状态"></a>3.6.2 系统的安全状态</h4><p>系统按某种进程顺序为进程分配资源，直至达到进程的最大需求，使每个进程都可以顺利完成。</p>
-<p>无法找到安全序列则称系统处于不安全状态</p>
-<h4 id="3-6-3-避免死锁-银行家算法"><a href="#3-6-3-避免死锁-银行家算法" class="headerlink" title="3.6.3 避免死锁-银行家算法"></a>3.6.3 避免死锁-银行家算法</h4><p>银行家算法（Dijkstra, 1965）问题</p>
-<ul>
-<li>在银行中，客户申请贷款的数量是有限的。银行家应尽量满足所有客户的贷款需求。</li>
-<li>银行家就好比操作系统，资金就是资源，客户就相当于要申请资源的进程。</li>
-</ul>
-<p>为保证资金的安全，银行家规定：</p>
-<ul>
-<li>当一个顾客对资金的最大需求量不超过银行家现有的资金时就可接纳该顾客(试探性分配) </li>
-<li>顾客可以分期贷款，但贷款的总数不能超过最大需求量(可能一次并不能满足所需要的全部资源) </li>
-<li>当银行家现有的资金不能满足顾客尚需的贷款数额时，对顾客的贷款可推迟支付，但总能使顾客在有限的时间里得到贷款(不存在死锁) </li>
-<li>当顾客得到所需的全部资金后，一定能在有限的时间里归还所有的资金(运行后释放) </li>
-</ul>
-<h5 id="1-银行家算法中的数据结构"><a href="#1-银行家算法中的数据结构" class="headerlink" title="1.银行家算法中的数据结构"></a>1.银行家算法中的数据结构</h5><p>设系统中共有n个进程，m类资源<br>(1) 可利用资源向量Available[m]。<br>       若Available[i]＝k，表示系统中Ri类资源有k个。<br>(2) 最大需求矩阵Max[n,m]<br>       若Max[i,j]=k，表示进程 i 需要Rj类资源k个。<br>(3) 分配矩阵Allocation[n,m]<br>       若Allocation[i,j] = k，表示进程 Pi 现在拥有 Rj 类型的资源k个。<br>(4)需求矩阵Need[n,m]<br>       若 Need[i,j] = k，表示进程 Pi 最多还需要Rj类型的资源k个，它才能完成任务<br>       Need[i,j]=Max[i,j]– Allocation[i,j]</p>
-<ol start="2">
-<li><h5 id="资源请求算法"><a href="#资源请求算法" class="headerlink" title="资源请求算法"></a>资源请求算法</h5></li>
-</ol>
-<p>Requesti为进程 Pi 的请求向量。如果 Requesti [j] = k ，表示进程 Pi 需要Rj类型资源k个。</p>
-<ol>
-<li><p>如果 Requesti  Needi ，转去执行第2步。否则产生错误，因为进程对资源的请求已经超过它事先声明的最大数量。</p>
-</li>
-<li><p>如果 Requesti  Available，转去执行第3步。 否则进程Pi必须等待，因为现有资源不够分配。</p>
-</li>
-<li><p>假设将进程 Pi 请求的资源分配给它，并按如下方式修改状态<br>Available = Available – Requesti<br>Allocationi = Allocationi + Requesti<br>Needi = Needi – Requesti<br>则系统进入新状态，用安全算法验证新状态是安全的。<br>如果安全 -&gt;  将资源分配给进程 Pi，系统进入新状态。<br>如果不安全 -&gt;  进程 Pi必须等待，系统保持原状态。</p>
-</li>
-<li><h5 id="安全算法"><a href="#安全算法" class="headerlink" title="安全算法"></a>安全算法</h5><p>(1)Work 和 Finish 分别是长度为m 和 n 的向量， 分别初始化为：</p>
-<pre><code>Work = Available
-Finish[i]=false (i = 1,3, …, n)</code></pre><p>(2)查找这样的 i 使其满足：</p>
-<pre><code>(a) Finish [i] = false
-(b) Needi  Work
-如果没有这样的 i 存在就转去执行第4步</code></pre><p>(3)Work = Work + Allocationi</p>
-<p>​    Finish[i] = true  </p>
-<p>​    转去执行第2步<br>(4)如果对所有的i，Finish[i]==true ，那么系统是安全的。否则，系统处于不安全状态。</p>
-</li>
-</ol>
-<p><strong>例子详见PPT</strong></p>
-<ol start="4">
-<li><h5 id="银行家算法特点"><a href="#银行家算法特点" class="headerlink" title="银行家算法特点"></a>银行家算法特点</h5></li>
-</ol>
-<ul>
-<li>允许互斥、部分分配和不可抢占，可提高资源利用率；</li>
-<li>要求事先说明最大资源要求，在现实中很困难。</li>
-</ul>
-<h3 id="3-7-死锁的检测和解除"><a href="#3-7-死锁的检测和解除" class="headerlink" title="3.7 死锁的检测和解除"></a>3.7 死锁的检测和解除</h3><p>系统为进程分配资源时，若未采取避免和预防死锁的措施，系统必须提供检测和解除死锁的手段。即：</p>
-<ul>
-<li>保存资源的请求和分配信息</li>
-<li>利用某种算法对这些信息加以检查，以判断是否存在死锁。</li>
-</ul>
-<h5 id="1-资源分配图"><a href="#1-资源分配图" class="headerlink" title="1. 资源分配图"></a>1. 资源分配图</h5><p><img src="/2020/08/17/OS-ch-3/3.7-1.jpg" alt></p>
-<h5 id="2-死锁定理"><a href="#2-死锁定理" class="headerlink" title="2. 死锁定理"></a>2. 死锁定理</h5><p>资源分配图的化简方法：</p>
-<ul>
-<li>删除既不处于等待状态又不独立的进程的所有弧（包括请求边和分配边），该点变为孤立点。</li>
-<li>重复上述过程，若最后所有进程结点是孤立点，则称该资源图是完全可简化的，否则是不可完全简化的</li>
-</ul>
-<p>死锁定理：S为死锁状态的充分条件是：当且仅当S状态的资源分配图不可完全简化。其中的有边进程为死锁进程。</p>
-<h5 id="3-死锁检测算法"><a href="#3-死锁检测算法" class="headerlink" title="3. 死锁检测算法"></a>3. 死锁检测算法</h5><p>1）检测算法中的数据结构<br>    设系统中有n个进程，m类资源<br>    Available:长度为 m 的向量，表示各种类型资源的可用实例数<br>    Allocation:为 n  m 矩阵，表示目前已分配给各个进程的各种资源的数量<br>    Request:为 n  m 矩阵，表示目前各个进程请求资源的情况。若Request[i,j] = k, 表示进程 Pi 正在请求 k 个类型为Rj的资源。</p>
-<p>2）算法描述<br>    (1)设Work 和 Finish 分别是长度为m 和 n 的向量，各自初始化为：<br>        (a) Work = Available<br>        (b) 对于i = 1,2, …, n，如果 Allocationi  0, 那么Finish[i] = false；否则 Finish[i] = true.<br>    (2) 查找这样的下标 i ，使其满足：<br>        (a) Finish[i] == false</p>
-<p>(3) Work = Work + AllocationiFinish[i] = true转去执行第2步 。<br>(4) 如果对某个i （ 1 &lt;= i &lt;=  n ），若Finish[i] == false，那么系统死锁。 而且，如果 Finish[i] == false，那么进程 Pi 正处于死锁状态。</p>
-<p>该算法需要O(m x n2) 操作来检查系统是否处于死锁状态</p>
-<h5 id="4-死锁检测算法的应用"><a href="#4-死锁检测算法的应用" class="headerlink" title="4.死锁检测算法的应用"></a>4.死锁检测算法的应用</h5><ul>
-<li>何时、以什么样的频率调用检测算法，取决于以下两个因素：<ul>
-<li>可能发生死锁的频率是多少?</li>
-<li>将影响多少进程（重新执行全部或部分代码）?</li>
-</ul>
-</li>
-<li>一旦资源请求不能立刻响应，调用检测算法（开销大）</li>
-<li>固定间隔调用检测算法，例如每小时1次或CPU利用率&lt;40%。</li>
-</ul>
-<h5 id="解除死锁的方法："><a href="#解除死锁的方法：" class="headerlink" title="解除死锁的方法："></a>解除死锁的方法：</h5><ul>
-<li>终止进程<ul>
-<li>代价大，易实现</li>
-<li>一次仅终止一个进程，直到消除环路为止（观察资源执行时间，使用资源数目，以及剩余时间，需求资源数目评断）</li>
-</ul>
-</li>
-<li>剥夺资源<ul>
-<li>选择一个牺牲者<ul>
-<li>代价最小</li>
-</ul>
-</li>
-<li>回退（后退）<ul>
-<li>退回安全状态，在此重新启动进程</li>
-<li>完全回滚：进程终止后重新开始</li>
-</ul>
-</li>
-<li>饿死<ul>
-<li>如果仅仅是基于代价来选择进程的话，某些进程可能会饿死。因此“代价”还应增加一个因素：做牺牲品的次数。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><img src="/2020/08/17/OS-ch-3/3.7-3.jpg" alt></p>
+<p>第一种方法删除的是m中键为k的元素，返回的是删除的元素的个数；第二种方法删除的是迭代器p指向的元素，返回的是void；第三种方法删除的是迭代器b和迭代器e范围内的元素，返回void。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; mp;</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++)&#123;</span><br><span class="line">        mp.insert(make_pair(i, i));</span><br><span class="line">   &#125;</span><br><span class="line">   mp.erase(<span class="number">0</span>);</span><br><span class="line">   mp.erase(mp.<span class="built_in">begin</span>());</span><br></pre></td></tr></table></figure>
+
+<h5 id="map常用函数"><a href="#map常用函数" class="headerlink" title="map常用函数"></a>map常用函数</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; mymap;</span><br><span class="line">mymap.insert(make_pair(<span class="string">'a'</span>, <span class="number">100</span>));</span><br><span class="line">mymap[<span class="string">'b'</span>] = <span class="number">100</span>;</span><br><span class="line">mymap.insert(pair&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt;(<span class="string">'c'</span>,<span class="number">300</span>));</span><br><span class="line"><span class="comment">//返回迭代器到开始(公共成员函数)</span></span><br><span class="line">mymap.<span class="built_in">begin</span>() 		</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回迭代器到末尾(公共成员函数)</span></span><br><span class="line">mymap.<span class="built_in">end</span>()		</span><br><span class="line"> </span><br><span class="line"><span class="comment">//返回反向迭代器到反向开始(公共成员函数)</span></span><br><span class="line">mymap.rbegin()	 </span><br><span class="line">    </span><br><span class="line"><span class="comment">//返回反向迭代器到反向端(公共成员函数)</span></span><br><span class="line">mymap.rend()	</span><br><span class="line">    </span><br><span class="line"><span class="comment">//将const_iterator返回到开始(公共成员函数)    </span></span><br><span class="line">mymap.cbegin()	</span><br><span class="line"> </span><br><span class="line"><span class="comment">//返回const_iterator末尾(公共成员函数)</span></span><br><span class="line">mymap.cend()			</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回const_reverse_iterator到反向开始(公共成员函数)    </span></span><br><span class="line">mymap.crbegin()		</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回const_reverse_iterator到reverse end(公共成员函数)</span></span><br><span class="line">mymap.crend()			</span><br><span class="line"> </span><br><span class="line"><span class="comment">//返回映射中是否为空    </span></span><br><span class="line">mymap.empty()			</span><br><span class="line"> </span><br><span class="line"><span class="comment">//返回映射容器可以容纳的元素的最大数量    </span></span><br><span class="line">mymap.max_size()		</span><br><span class="line"></span><br><span class="line"><span class="comment">//访问元素(公共成员函数)    </span></span><br><span class="line">mymap[<span class="string">'a'</span>] 		</span><br><span class="line"></span><br><span class="line"><span class="comment">//修改Key值的引用值    </span></span><br><span class="line">mymap.at(<span class="string">'a'</span>)=<span class="number">10</span>;        </span><br><span class="line"> </span><br><span class="line"><span class="comment">//插入元素(公共成员函数)   </span></span><br><span class="line">mymap.insert()		</span><br><span class="line"> </span><br><span class="line"><span class="comment">//删除元素(公共成员函数)    </span></span><br><span class="line">mymap.erase()			</span><br><span class="line"> </span><br><span class="line"><span class="comment">//交换内容(公共成员函数)，将两个map中的内容完全交换   </span></span><br><span class="line">mymap.swap(mymap2)			</span><br><span class="line">  </span><br><span class="line"><span class="comment">//从map容器中删除所有元素，使容器的大小为0   </span></span><br><span class="line">mymap.<span class="built_in">clear</span>()</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-unordered-map"><a href="#2-unordered-map" class="headerlink" title="2.unordered_map"></a>2.unordered_map</h4><p>map内部实现的是一个黑红树，具有自动排序功能，因此map所有元素都是有序的，红黑树的每一个节点都代表着map的一个元素。因此，对于map进行的查找，删除，添加等一系列的操作都相当于是对红黑树进行的操作。map中的元素是按照二叉搜索树（又名二叉查找树、二叉排序树，特点就是左子树上所有节点的键值都小于根节点的键值，右子树所有节点的键值都大于根节点的键值）存储的，使用中序遍历可将键值按照从小到大遍历出来。</p>
+<p>unordered_map内部实现了一个哈希表（也叫散列表，通过把关键码值映射到Hash表中一个位置来访问记录，查找的时间复杂度可达到O(1)，其在海量数据处理中有着广泛应用）。因此，其元素的排列顺序是无序的。</p>
+<p>在有对于顺序要求的问题中，map会更高效，但是map的每个节点占用空间更大。</p>
+<p>而对于查找问题来说，unordered_map会更加高效，因为哈希表查找速度非常快，但是哈希表建立比较消耗时间。</p>
+<p>其操作与map相同。</p>
+<h4 id="3-vector"><a href="#3-vector" class="headerlink" title="3.vector"></a>3.vector</h4><p>vector是向量类型，可以容纳许多类型的数据，因此也被称为容器，</p>
+<h5 id="vector初始化："><a href="#vector初始化：" class="headerlink" title="vector初始化："></a>vector初始化：</h5><p><strong>方式1.</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义具有10个整型元素的向量（尖括号为元素类型名，它可以是任何合法的数据类型），不具有初值，其值不确定</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;a(<span class="number">10</span>);</span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>方式2.</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义具有10个整型元素的向量，且给出的每个元素初值为1</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;a(<span class="number">10</span>,<span class="number">1</span>);</span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>方式3.</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用向量b给向量a赋值，a的值完全等价于b的值</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;a(b);</span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>方式4</strong>.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将向量b中从0-2（共三个）的元素赋值给a，a的类型为int型</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;a(b.<span class="built_in">begin</span>(),b.<span class="built_in">begin</span>+<span class="number">3</span>);</span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>方式5.</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//从数组中获得初值</span></span><br><span class="line"><span class="keyword">int</span> b[<span class="number">7</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>&#125;;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">a</span><span class="params">(b,b+<span class="number">7</span>）;</span></span></span><br></pre></td></tr></table></figure>
+
+<h5 id="常用内置函数"><a href="#常用内置函数" class="headerlink" title="常用内置函数"></a>常用内置函数</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a,b;</span><br><span class="line"><span class="comment">//b为向量，将b的0-2个元素赋值给向量a</span></span><br><span class="line">a.assign(b.<span class="built_in">begin</span>(),b.<span class="built_in">begin</span>()+<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//a含有4个值为2的元素</span></span><br><span class="line">a.assign(<span class="number">4</span>,<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回a的最后一个元素</span></span><br><span class="line">a.back();</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回a的第一个元素</span></span><br><span class="line">a.front();</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回a的第i元素,当且仅当a存在</span></span><br><span class="line">a[i];</span><br><span class="line"></span><br><span class="line"><span class="comment">//清空a中的元素</span></span><br><span class="line">a.<span class="built_in">clear</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">//判断a是否为空，空则返回true，非空则返回false</span></span><br><span class="line">a.empty();</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除a向量的最后一个元素</span></span><br><span class="line">a.pop_back();</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除a中第一个（从第0个算起）到第二个元素，也就是说删除的元素从a.begin()+1算起（包括它）一直到a.begin()+3（不包括它）结束</span></span><br><span class="line">a.erase(a.<span class="built_in">begin</span>()+<span class="number">1</span>,a.<span class="built_in">begin</span>()+<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//在a的最后一个向量后插入一个元素，其值为5</span></span><br><span class="line">a.push_back(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//在a的第一个元素（从第0个算起）位置插入数值5,</span></span><br><span class="line">a.insert(a.<span class="built_in">begin</span>()+<span class="number">1</span>,<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//在a的第一个元素（从第0个算起）位置插入3个数，其值都为5</span></span><br><span class="line">a.insert(a.<span class="built_in">begin</span>()+<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//b为数组，在a的第一个元素（从第0个元素算起）的位置插入b的第三个元素到第5个元素（不包括b+6）</span></span><br><span class="line">a.insert(a.<span class="built_in">begin</span>()+<span class="number">1</span>,b+<span class="number">3</span>,b+<span class="number">6</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回a中元素的个数</span></span><br><span class="line">a.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回a在内存中总共可以容纳的元素个数</span></span><br><span class="line">a.capacity();</span><br><span class="line"></span><br><span class="line"><span class="comment">//将a的现有元素个数调整至10个，多则删，少则补，其值随机</span></span><br><span class="line">a.resize(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//将a的现有元素个数调整至10个，多则删，少则补，其值为2</span></span><br><span class="line">a.resize(<span class="number">10</span>,<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//将a的容量扩充至100，</span></span><br><span class="line">a.reserve(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//b为向量，将a中的元素和b中的元素整体交换</span></span><br><span class="line">a.swap(b);</span><br><span class="line">下标访问是之恶能访问</span><br><span class="line"><span class="comment">//b为向量，向量的比较操作还有 != &gt;= &gt; &lt;= &lt;</span></span><br><span class="line">a==b;</span><br></pre></td></tr></table></figure>
+
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><p>通过下标访问时只能访问存在的元素，</p>
+<h5 id="几个常用的算法"><a href="#几个常用的算法" class="headerlink" title="几个常用的算法"></a>几个常用的算法</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="comment">//对a中的从a.begin()（包括它）到a.end()（不包括它）的元素进行从小到大排列</span></span><br><span class="line"> sort(a.<span class="built_in">begin</span>(),a.<span class="built_in">end</span>());</span><br><span class="line"> </span><br><span class="line"><span class="comment">//对a中的从a.begin()（包括它）到a.end()（不包括它）的元素倒置，但不排列，如a中元素为1,3,2,4,倒置后为4,2,3,1</span></span><br><span class="line"> reverse(a.<span class="built_in">begin</span>(),a.<span class="built_in">end</span>());</span><br><span class="line"> </span><br><span class="line"><span class="comment">//把a中的从a.begin()（包括它）到a.end()（不包括它）的元素复制到b中，从b.begin()+1的位置（包括它）开始复制，覆盖掉原有元素</span></span><br><span class="line"> copy(a.<span class="built_in">begin</span>(),a.<span class="built_in">end</span>(),b.<span class="built_in">begin</span>()+<span class="number">1</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//在a中的从a.begin()（包括它）到a.end()（不包括它）的元素中查找10，若存在返回其在向量中的位置</span></span><br><span class="line">  <span class="built_in">find</span>(a.<span class="built_in">begin</span>(),a.<span class="built_in">end</span>(),<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-queue"><a href="#4-queue" class="headerlink" title="4.queue"></a>4.queue</h4><p>只能访问queue<T>容器适配器的第一个和最后一个元素，只能在容器的末尾添加新元素，只能从头部移除元素。</T></p>
+<p>queue的基本操作如下图：</p>
+<p><img src="/2020/08/28/CCFtab/queue.jpg" alt></p>
+<p>queue 和 stack 有一些成员函数相似，但在一些情况下，工作方式有些不同：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">queue</span>&lt;<span class="built_in">string</span>&gt;q;</span><br><span class="line"><span class="comment">//返回 queue 中第一个元素的引用。如果 queue 是常量，就返回一个常引用；如果 queue 为空，返回值是未定义的。</span></span><br><span class="line">q.front()：</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回 queue 中最后一个元素的引用。如果 queue 是常量，就返回一个常引用；如果 queue 为空，返回值是未定义的。</span></span><br><span class="line">q.back()：</span><br><span class="line"></span><br><span class="line"><span class="comment">//在 queue 的尾部添加一个元素的副本。这是通过调用底层容器的成员函数 push_back() 来完成的。    </span></span><br><span class="line">q.push(<span class="keyword">const</span> T&amp; obj)：</span><br><span class="line"></span><br><span class="line"><span class="comment">//以移动的方式在 queue 的尾部添加元素。这是通过调用底层容器的具有右值引用参数的成员函数 push_back() 来完成的。    </span></span><br><span class="line">q.push(T&amp;&amp; obj)：</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除 queue 中的第一个元素。</span></span><br><span class="line">q.pop()：</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回 queue 中元素的个数。</span></span><br><span class="line">q.<span class="built_in">size</span>()：</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果 queue 中没有元素的话，返回 true。</span></span><br><span class="line">q.empty()：</span><br><span class="line"></span><br><span class="line"><span class="comment">//用传给 emplace() 的参数调用 T 的构造函数，在 queue 的尾部生成对象。</span></span><br><span class="line">emplace()：</span><br><span class="line"></span><br><span class="line"><span class="comment">//将当前 queue 中的元素和参数 queue 中的元素交换。它们需要包含相同类型的元素。也可以调用全局函数模板 swap() 来完成同样的操作。</span></span><br><span class="line">swap(<span class="built_in">queue</span>&lt;T&gt; &amp;other_q)：</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-stack"><a href="#5-stack" class="headerlink" title="5.stack"></a>5.stack</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt;s1;</span><br><span class="line"><span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line"><span class="comment">//堆栈为空则返回真</span></span><br><span class="line">s1.empty() </span><br><span class="line"></span><br><span class="line"><span class="comment">//移除栈顶元素</span></span><br><span class="line">s1.pop() </span><br><span class="line"></span><br><span class="line"><span class="comment">//在栈顶增加元素a</span></span><br><span class="line">s1.push(a) </span><br><span class="line"></span><br><span class="line"><span class="comment">//返回栈中元素数目</span></span><br><span class="line">s1.<span class="built_in">size</span>() </span><br><span class="line"></span><br><span class="line"><span class="comment">//返回栈顶元素</span></span><br><span class="line">s1.top()</span><br></pre></td></tr></table></figure>
+
+
 
       
     </div>
