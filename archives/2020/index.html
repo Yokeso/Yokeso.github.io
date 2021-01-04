@@ -672,7 +672,7 @@
 <tr>
 <td>SIGCONT</td>
 <td>忽略</td>
-<td align="left">继续进程如果该进程停止</td>
+<td align="left">继续进程如果该进程停止（预定义默认行为）</td>
 <td>2017A</td>
 </tr>
 <tr>
@@ -682,7 +682,92 @@
 <td></td>
 </tr>
 </tbody></table>
-<h4 id="第九章-—-虚拟内存"><a href="#第九章-—-虚拟内存" class="headerlink" title="第九章 — 虚拟内存"></a>第九章 — 虚拟内存</h4><h4 id="第十章-—-系统级IO"><a href="#第十章-—-系统级IO" class="headerlink" title="第十章 — 系统级IO"></a>第十章 — 系统级IO</h4>
+<h4 id="第九章-—-虚拟内存"><a href="#第九章-—-虚拟内存" class="headerlink" title="第九章 — 虚拟内存"></a>第九章 — 虚拟内存</h4><p>CPU生成虚拟地址(VA)访问主存，虚拟地址被送到内存之前先转化成合适的物理地址。——地址翻译</p>
+<p>虚拟页面的集合分为三个不相交的子集</p>
+<ul>
+<li>未分配</li>
+<li>缓存的</li>
+<li>未缓存的</li>
+</ul>
+<p><strong>页表条目的大小是n，也就是地址位数。</strong></p>
+<h5 id="1-地址翻译过程："><a href="#1-地址翻译过程：" class="headerlink" title="1.地址翻译过程："></a>1.地址翻译过程：</h5><p><img src="/2020/12/01/CSAPP-summarize/image-20201205163159359.png" alt="image-20201205163159359"></p>
+<ul>
+<li>第一步：处理器生成VA并发送到MMU</li>
+<li>第二步：MMU生成PTE地址并从高速缓存/主存请求它</li>
+<li>第三步：CACHE/主存向MMU返回PTE</li>
+<li>第4步:PTE中的有效位是零，所以MMU触发了一次异常，传递CPU中的控制到操作系统内核中的缺页异常处理程序。</li>
+<li>第5步:缺页处理程序确定出物理内存中的牺牲页，如果这个页面已经被修改了，则把它换出到磁盘。</li>
+<li>第6步:缺页处理程序页面调入新的页面，并更新内存中的PTE。</li>
+</ul>
+<h5 id="2-地址翻译带CACHE与内存的过程"><a href="#2-地址翻译带CACHE与内存的过程" class="headerlink" title="2.地址翻译带CACHE与内存的过程"></a>2.地址翻译带CACHE与内存的过程</h5><p><img src="/2020/12/01/CSAPP-summarize/image-20201205170317747.png" alt="image-20201205170317747"></p>
+<h5 id="3-地址翻译中的地址结构变换"><a href="#3-地址翻译中的地址结构变换" class="headerlink" title="3.地址翻译中的地址结构变换"></a>3.地址翻译中的地址结构变换</h5><p><img src="/2020/12/01/CSAPP-summarize/image-20201205170418497.png" alt="image-20201205170418497"></p>
+<p>这里默认 <strong>虚拟地址空间48位，物理地址空间52位，CACHE 块大小为64字节，L1、L2 8路组相联。L3 16路组相联。页大小为4KB</strong></p>
+<p><img src="/2020/12/01/CSAPP-summarize/image-20201205172024421.png" alt="image-20201205172024421"></p>
+<p>其中各种地址变化如下</p>
+<p>CPU  产生<code>VA</code> ，形式为 </p>
+<table>
+<thead>
+<tr>
+<th align="center">VPN(虚拟页号)</th>
+<th align="center">VPO（虚拟页偏移）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">36位（页表号）</td>
+<td align="center">12位（块大小$2^{12}$）</td>
+</tr>
+</tbody></table>
+<p><code>VA</code>发送给MMU，MMU生成<code>PTE</code>发送给块表 产生的块表地址<code>LTBA</code>  形式为</p>
+<table>
+<thead>
+<tr>
+<th align="center">LTBT（LTB标记）</th>
+<th align="center">LTBI（LTB索引）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">32位（VPN的前32位）</td>
+<td align="center">4位（组数量$2^{4}$）</td>
+</tr>
+</tbody></table>
+<p>中间的不命中过程省略，主要看命中过程。<code>LTBA</code> 命中后返回一个 <code>PPO</code>，MMU将<code>VPO</code>与<code>PPO</code>组合形成<code>PA</code>形式为：</p>
+<table>
+<thead>
+<tr>
+<th align="center">PPN（物理页号）</th>
+<th align="center">PPO（物理页偏移）= VPO</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">40位</td>
+<td align="center">12位</td>
+</tr>
+</tbody></table>
+<p>MMU将<code>PA</code>传送给CACHE，变化为：</p>
+<table>
+<thead>
+<tr>
+<th align="center">CT</th>
+<th align="center">CI</th>
+<th align="center">CO</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">40</td>
+<td align="center">6（$2^6$组）</td>
+<td align="center">6</td>
+</tr>
+</tbody></table>
+<h5 id="4-分配器"><a href="#4-分配器" class="headerlink" title="4.分配器"></a>4.分配器</h5><h6 id="隐式空闲链表"><a href="#隐式空闲链表" class="headerlink" title="隐式空闲链表"></a>隐式空闲链表</h6><p><img src="/2020/12/01/CSAPP-summarize/image-20201206212526290.png" alt="image-20201206212526290"></p>
+<p>块大小为8的倍数，并且头部占据4个字节</p>
+<p>例如 malloc(13) = 4+13=17 -&gt; 24 头部是 0001 1001 也就是0x19（后三位一定是0因为盘块大小是8的整数）</p>
+<p><strong>当分配器合并的时候会在尾部设置一个和头部一样的脚部</strong></p>
+<h6 id="显式空闲链表"><a href="#显式空闲链表" class="headerlink" title="显式空闲链表"></a>显式空闲链表</h6><p><img src="/2020/12/01/CSAPP-summarize/image-20201206213231762.png" alt="image-20201206213231762"></p>
+<p><strong>简单分离存储：</strong>链表包含大小相同的块</p>
+<p><strong>分离适配：</strong>块用链表连接</p>
+<p><strong>伙伴系统：</strong>每个类大小都是2的幂</p>
+<h6 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h6><p><img src="/2020/12/01/CSAPP-summarize/image-20201206215004182.png" alt="image-20201206215004182"></p>
+<h4 id="第十章-—-系统级IO"><a href="#第十章-—-系统级IO" class="headerlink" title="第十章 — 系统级IO"></a>第十章 — 系统级IO</h4>
       
     </div>
     
