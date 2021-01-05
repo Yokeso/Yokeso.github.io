@@ -435,9 +435,128 @@
         
           
         
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2021/01/04/MapReduce/">
+      MapReduce
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jan 4, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/2021/01/04/MapReduce/" class="leancloud_visitors" data-flag-title="MapReduce">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+<div class="new-meta-item comments-count">
+  
+  <a href="/2021/01/04/MapReduce/#comments">
+    <i class="fas fa-comment-dots fa-fw"></i>
+    <span class="valine-comment-count" data-xid="/2021/01/04/MapReduce/">0</span>
+    <span class="leancloud-comments-count">&nbsp;</span>
+  </a>
+</div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="MapReduce原理及介绍"><a href="#MapReduce原理及介绍" class="headerlink" title="MapReduce原理及介绍"></a>MapReduce原理及介绍</h2><p>MapReduce是一个软件框架，可以支持大规模数据集上的并行和分布式运算。</p>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -826,6 +945,62 @@
 <h4 id="工作流运行引擎"><a href="#工作流运行引擎" class="headerlink" title="工作流运行引擎"></a>工作流运行引擎</h4><p>有向无环图，</p>
 <p>使用传统语言和工具集的脚本是构建工作流的主要技术</p>
 <p>最复杂的工作流支持层次化规范，即工作流节点可以是服务或服务集。</p>
+<h2 id="第六章-云编程和软件环境"><a href="#第六章-云编程和软件环境" class="headerlink" title="第六章 云编程和软件环境"></a>第六章 云编程和软件环境</h2><h3 id="6-1-云和网络平台的特性"><a href="#6-1-云和网络平台的特性" class="headerlink" title="6.1 云和网络平台的特性"></a>6.1 云和网络平台的特性</h3><p><img src="/2021/01/03/Distributed-cloud-computing/image-20210104165649219.png" alt="image-20210104165649219"></p>
+<p><img src="/2021/01/03/Distributed-cloud-computing/image-20210104165659938.png" alt="image-20210104165659938"></p>
+<p><img src="/2021/01/03/Distributed-cloud-computing/image-20210104165707706.png" alt="image-20210104165707706"></p>
+<p><img src="/2021/01/03/Distributed-cloud-computing/image-20210104165716339.png" alt="image-20210104165716339"></p>
+<h4 id="网络和云的公共传统特征"><a href="#网络和云的公共传统特征" class="headerlink" title="网络和云的公共传统特征"></a>网络和云的公共传统特征</h4><p>工作流：在真实应用中工作流按需连接多个云和非云服务</p>
+<p>数据传输：商业云中的数据传输成本</p>
+<p>云编程环境的安全隐私和可用性需求：</p>
+<ul>
+<li>使用虚拟集群化实现最小开销成本达到资源动态供应</li>
+<li>使用稳定和持续数据传输，带有用于信息检索的快速查询</li>
+<li>特殊API来验证用户</li>
+<li>使用HTTPS或者SSL等安全协议访问云资源</li>
+<li>细粒度保护数据完整性，阻止入侵者或黑客</li>
+<li>保护共享数据集</li>
+<li>实时迁移和灾难恢复</li>
+<li>使用信用系统保护数据中心</li>
+</ul>
+<h4 id="数据特性和数据库"><a href="#数据特性和数据库" class="headerlink" title="数据特性和数据库"></a>数据特性和数据库</h4><p>程序库：允许方便部署配置镜像（即支持IaaS）</p>
+<p>Blob和驱动：类似共享文件系统</p>
+<p>DPFS：这个文件系统是为执行数据密集型应用设计的</p>
+<p>SQL和关系型数据库</p>
+<p>表格和NOSQL非关系型数据库</p>
+<p>队列服务：扩展组件间通信</p>
+<h3 id="6-2-并行和分布式编程范式"><a href="#6-2-并行和分布式编程范式" class="headerlink" title="6.2 并行和分布式编程范式"></a>6.2 并行和分布式编程范式</h3><p>是运行在多个计算引擎或一个分布式计算系统上的并行程序，包含分布式系统和并行计算。分布式系统是一系列网络连接的计算引擎，完成一个共同目标：运行一个作业或者应用。并行计算时同时用多个引擎运行作业或者应用。</p>
+<h4 id="并行计算和编程范式"><a href="#并行计算和编程范式" class="headerlink" title="并行计算和编程范式"></a>并行计算和编程范式</h4><p>多个网络节点或工作机组成用并行或者分布式方式来运行并行的程序，包括以下方面</p>
+<ul>
+<li><p>分区 分为识别分区和计算分区</p>
+<ul>
+<li>计算分区：将指定任务分割为小任务，分区过程很大程度依靠正确识别可以并发执行的作业或程序的每一小部分</li>
+<li>数据分区：将输入或中间数据分割成更小部分。类似地，一旦识别出输入数据的并行性，它也可以被分割成多个部分，能在不同的工作机上运行。数据块可由程序的不同部分或者同一程序的副本来处理。</li>
+</ul>
+</li>
+<li><p>映射：把更小的程序部分或更小的数据分块分给底层的资源，过程目的在于合理分配这些部分或者分块，使它们能同时在不同的工作机上运行。由系统中的资源分配器处理</p>
+</li>
+<li><p>同步：不同工作机可以执行不同任务，工作机之间同步和协同很有必要。可以避免竞争条件，不同工作机之间数据依赖也能恰当的管理。然而，一个工作机需要其他工作机处理的数据时会产生数据依赖</p>
+</li>
+<li><p>通信：中间数据转备好在工作机之间传送时通信就开始了</p>
+</li>
+<li><p>调度：数据块多于可用工作机数量时，调度程序选择一个任务序列分配给工作机。只基于一套称为调度策略的规则，对于多作业或多程序，调度器会选择运行在分布式系统上的一个任务或程序序列。</p>
+</li>
+</ul>
+<h4 id="编程范式动机"><a href="#编程范式动机" class="headerlink" title="编程范式动机"></a>编程范式动机</h4><ul>
+<li><p>提供并行或分布式范式或模型来抽象用户数据流的多个部分</p>
+</li>
+<li><p>编写并行程序的简单性是度量并行和分布式编程范式的重要标准。</p>
+<ul>
+<li>提高程序员效率</li>
+<li>减少程序进入市场时间</li>
+<li>有效利用系统资源</li>
+<li>提高吞吐量</li>
+<li>支持更高层抽象</li>
+</ul>
+</li>
+<li><p>MapReduce、Hadoop和Dryad是最近提出的三种并行和分布式编程模型，为信息检索而开发。</p>
+</li>
+</ul>
 
       
     </div>

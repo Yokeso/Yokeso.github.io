@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,7 +16,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>Archive - Yokeso</title>
+  <title>MapReduce - Yokeso</title>
   
 
   
@@ -328,7 +326,7 @@
   
   
   <div class="cover-wrapper">
-    <div class='cover ' style="display: none;">
+    <div class='cover post' style="display: none;">
       <div class='cover-bg lazyload placeholder' data-bg=""></div>
       <div class='cover-body'>
   <div class='a'>
@@ -383,7 +381,7 @@
   
 
 
-  <div class="l_body">
+  <div class="l_body nocover">
     <div class='body-wrapper' id="pjax-container">
       
         <!--此文件用来存放一些不方便取值的变量-->
@@ -392,8 +390,8 @@
 
 
 <div id="pjax-data" style="display: none">
-  <div id="pjax-ispage">false</div>
-  <div id="pjax-pageTitle"></div>
+  <div id="pjax-ispage">true</div>
+  <div id="pjax-pageTitle">MapReduce</div>
   <div id="pjax-enable-cover">true</div>
   <div id="pjax-comment-path">none</div>
   <div id="pjax-comment-placeholder">none</div>
@@ -402,16 +400,16 @@
 
 <script>
   // 处理封面 此时 jquery 还没加载
-  if ("blog" == "none") { // 移除封面
+  if ("none" == "none") { // 移除封面
     document.getElementsByClassName('cover')[0].style.display = "none"; 
     document.getElementsByClassName('l_body')[0].classList.add("nocover");
     document.getElementsByClassName('l_header', 'cover-wrapper')[0].classList.add("show");
   } else {
-    if ("blog" == "blog") { // 半屏
+    if ("none" == "blog") { // 半屏
       document.getElementsByClassName('cover')[0].classList.remove("full");
       document.getElementsByClassName('cover')[0].classList.add("half");
       document.getElementsByClassName('scroll-down')[0].style.display = "none";
-    } else if ("blog" == "docs") { // 全屏
+    } else if ("none" == "docs") { // 全屏
       document.getElementsByClassName('cover')[0].classList.remove("half");
       document.getElementsByClassName('cover')[0].classList.add("full");
       document.getElementsByClassName('scroll-down')[0].style.display = "";
@@ -427,320 +425,117 @@
       
 
 <div class='l_main'>
-	
-	  <article id="archive-page" class="post article white-box reveal shadow">
-	    <section class="archive">
-	      
-	        
-	          
-						
-							
-		            
-			          <div class="archive-item archive-year mark">
-			            <h2>2021</h2>
-			          </div>
-		      		
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2021/01/04/MapReduce/">
-		              <time>01-04</time>
-		              <span class="title">
-		                
-		                  MapReduce
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2021/01/03/Distributed-cloud-computing/">
-		              <time>01-03</time>
-		              <span class="title">
-		                
-		                  Distributed_cloud-computing
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		            
-			          <div class="archive-item archive-year mark">
-			            <h2>2020</h2>
-			          </div>
-		      		
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/12/01/CSAPP-summarize/">
-		              <time>12-01</time>
-		              <span class="title">
-		                
-		                  CSAPP-summarize
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/10/05/ComNet2/">
-		              <time>10-05</time>
-		              <span class="title">
-		                
-		                  ComNet2
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/09/27/ComNet/">
-		              <time>09-27</time>
-		              <span class="title">
-		                
-		                  ComNet
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/08/28/CCFtab/">
-		              <time>08-28</time>
-		              <span class="title">
-		                
-		                  CCFtab
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/08/25/DSPtopic/">
-		              <time>08-25</time>
-		              <span class="title">
-		                
-		                  DSPtopic
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/08/18/OS-ch-4/">
-		              <time>08-18</time>
-		              <span class="title">
-		                
-		                  OS-ch-4
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/08/17/OS-ch-3/">
-		              <time>08-17</time>
-		              <span class="title">
-		                
-		                  OS-ch-3
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/08/14/OS-ch-2/">
-		              <time>08-14</time>
-		              <span class="title">
-		                
-		                  OS-ch-2
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/08/14/OS-ch-1/">
-		              <time>08-14</time>
-		              <span class="title">
-		                
-		                  OS_ch_1
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/07/26/CSAPP-Ch-3/">
-		              <time>07-26</time>
-		              <span class="title">
-		                
-		                  CSAPP Ch.3
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	          
-						
-							
-		          <div class="archive-item archive-post mark">
-		            <a class='ai' href="/2020/06/26/Hexo-Git%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
-		              <time>06-26</time>
-		              <span class="title">
-		                
-		                  Hexo+Git个人博客搭建
-		                
-		                
-										
-										
-		              </span>
-		            </a>
-		          </div>
-						
-	      
-	    </section>
-	  </article>
-	
-</div>
-<aside class='l_side'>
   
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/2021/01/04/MapReduce/">
+      MapReduce
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jan 4, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          
+          <h2 id="MapReduce原理及介绍"><a href="#MapReduce原理及介绍" class="headerlink" title="MapReduce原理及介绍"></a>MapReduce原理及介绍</h2><p>MapReduce是一个软件框架，可以支持大规模数据集上的并行和分布式运算。</p>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">Yokeso</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
+      <blockquote>
         
           
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
           
         
           
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=http://yokeso.top/2021/01/04/MapReduce/>http://yokeso.top/2021/01/04/MapReduce/</a></p>
           
         
-          
-            <a href="https://github.com/volantis-x/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=63035382"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -751,43 +546,188 @@
     
     
 
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/qrcode/github@volantis.png'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/qrcode/github@volantis.png'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-05T16:03:56+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jan 5, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yokeso.top/2021/01/04/MapReduce/&title=MapReduce - Yokeso&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yokeso.top/2021/01/04/MapReduce/&title=MapReduce - Yokeso&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://yokeso.top/2021/01/04/MapReduce/&title=MapReduce - Yokeso&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2021/01/03/Distributed-cloud-computing/'>
+                <p class='title'>Distributed_cloud-computing<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>第一章 分布式系统模型和关键技术1.1互联网上的可扩展计算一个并行的、分布式的计算系统使用大量的计算机解决互联网上的大规模计算问题。   分布式计算的缺点是数据敏感和网络中心化
+
+计算范式之间区...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      <section id="comments">
+        <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+      </section>
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+</div>
+<aside class='l_side'>
+  
   
 
   
     
     
-  
 
-  <section class="widget tagcloud shadow desktop mobile">
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <a href="/tags/CCF/" style="font-size: 14px; color: #999">-CCF</a> <a href="/tags/DSP-2020-lunboli/" style="font-size: 14px; color: #999">-DSP -2020 -lunboli</a> <a href="/tags/Hexo-%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 14px; color: #999">-Hexo -个人博客</a> <a href="/tags/OS-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-ch3/" style="font-size: 14px; color: #999">-OS -操作系统 -ch3</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-OS-ch2/" style="font-size: 14px; color: #999">-操作系统 -OS -ch2</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-OS-ch3/" style="font-size: 14px; color: #999">-操作系统 -OS -ch3</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px; color: #999">计算机网络</a>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MapReduce原理及介绍"><span class="toc-text">MapReduce原理及介绍</span></a></li></ol>
     </div>
   </section>
 
 
   
 
-  
-
 
 </aside>
 
-
-
-
-
-	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-	
-
-	
 
 
     </div>
