@@ -16,7 +16,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>MapReduce - Yokeso</title>
+  <title>scala - Yokeso</title>
   
 
   
@@ -391,7 +391,7 @@
 
 <div id="pjax-data" style="display: none">
   <div id="pjax-ispage">true</div>
-  <div id="pjax-pageTitle">MapReduce</div>
+  <div id="pjax-pageTitle">scala</div>
   <div id="pjax-enable-cover">true</div>
   <div id="pjax-comment-path">none</div>
   <div id="pjax-comment-placeholder">none</div>
@@ -440,8 +440,8 @@
         
           
   <h1 class="title">
-    <a href="/2021/01/04/MapReduce/">
-      MapReduce
+    <a href="/2021/01/06/scala/">
+      scala
     </a>
   </h1>
 
@@ -471,7 +471,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jan 4, 2021</p>
+    <p>发布于：Jan 6, 2021</p>
   </a>
 </div>
 
@@ -495,71 +495,90 @@
         <div class="article-entry" itemprop="articleBody">
           
           
-          <h2 id="MapReduce原理及介绍"><a href="#MapReduce原理及介绍" class="headerlink" title="MapReduce原理及介绍"></a>MapReduce原理及介绍</h2><p>MapReduce是一个软件框架，可以支持大规模数据集上的并行和分布式运算。抽象了分布式计算系统上运行一个并行程序的数据流，以函数形式提供给用户两个接口：Map（映射）和Reduce（化简）用户可以重载这两个函数以实现交互和操纵其中的程序数据流</p>
-<h4 id="MapReduce形式化定义"><a href="#MapReduce形式化定义" class="headerlink" title="MapReduce形式化定义"></a>MapReduce形式化定义</h4><p>MapReduce软件框架向用户提供了一个据欧数据流和控制流的抽象层，并隐藏了数据流的实现步骤。但抽象层提供了Map和Reduce两个函数，用户可以通过重载这两个主函数达到特定目标</p>
-<p>用户首先重载Map和Reduce函数，然后调用<code>MapReduce（Spec，&amp;Results）</code>来开始数据流，其中<code>Spec</code>先在用户程序中初始化，然后用户编写代码来填入输入和输出文件名以及其他可选调节参数。这个对象还填入了Map和Reduce函数的名字，以识别这些用户定义的函数和MapReduce库里提供的函数</p>
-<p><img src="/2021/01/04/MapReduce/image-20210105164548758.png" alt="image-20210105164548758"></p>
-<h4 id="MapReduce逻辑数据流"><a href="#MapReduce逻辑数据流" class="headerlink" title="MapReduce逻辑数据流"></a>MapReduce逻辑数据流</h4><p>Map的输入数据是以<code>（key,value）</code>对形式出现，输出数据的结构类似于<code>（key,value）</code>对，称为中间<code>（key,value）</code>对，换句话说，用户自定义Map函数处理每个<code>（key,value）</code>对，并产生很多<code>（zero,one,ormore）</code>中间<code>（key,value）</code>对。目的是为了Map函数并行处理所有的<code>（key,value）</code>对</p>
-<p><img src="/2021/01/04/MapReduce/image-20210105170548205.png" alt="image-20210105170548205"></p>
-<p>反过来，Reduce函数以中间值群组的形式接受中间<code>（key,value）</code>对，这些中间值群组和一个中间key<code>（key,[set of values]）</code>相关。实际上，MapReduce框架形成了这些群组，先对中间<code>（key,value）</code>对排序，然后用key来对value分组</p>
-<p><strong>注意，排序是为了简化分组</strong></p>
-<p>reduce 函数处理每个<code>（key,[set of values]）</code>群组，并产生<code>（key,value）</code>对集合作为输出。</p>
-<h4 id="单词计数顺序"><a href="#单词计数顺序" class="headerlink" title="单词计数顺序"></a>单词计数顺序</h4><p><img src="/2021/01/04/MapReduce/image-20210105191718304.png" alt="image-20210105191718304"></p>
-<p><strong>符号化</strong>：（key1,val1）-Map函数-&gt;List(key2,val2)</p>
-<p>​                （key2,List(val2)）-Reduce函数-&gt;List（val2）</p>
-<h4 id="MapReduce真实数据和控制流"><a href="#MapReduce真实数据和控制流" class="headerlink" title="MapReduce真实数据和控制流"></a>MapReduce真实数据和控制流</h4><p>1.数据分区：MapReduce库将已存入GFS的输入数据分割成m份，M也即映射任务的数量。</p>
-<p>2.计算分区：计算模块强迫用户以Map和Reduce函数的形式编写程序，并在框架中隐式处理，所以MapReduce库只生成用户程序的多个复制（fork），包含MAp和Reduce函数，然后在多个可用的计算引擎上分配。</p>
-<p>3.决定主服务器（master）和服务器（worker）：MapReduce基于主服务器-服务器模式，一个用户程序的复制变为主服务器，其余是服务器。主服务器挑选空闲服务器，分配MapReduce任务给他们。</p>
-<p>4.读取输入数据（数据分发）：每一个映射服务器读取其输入数据的相应部分，即输入数据分割，然后输入至其Map函数。虽然一个映射服务器可能运行多个Map函数，这意味着它分到了不止一个输入数据分割；通常每个服务器只分到一个输入分割。</p>
-<p>5.Map函数：用<code>（key,value）</code>对集合的形式收到输入数据分割，来处理并产生中间<code>（key,value）</code>对。</p>
-<p>6.Combiner函数：映射服务器中一个可选的本地函数。适用于中间的<code>（key,value）</code>对。用户可以在用户程序里调用。Combiner运行与Reduce一样的功能。合并每个映射服务器的本地数据然后送到网络传输。</p>
-<p>7.Partitioning函数：分块是由Partitioning（分区）函数完成，并能保证有相同键值的所有<code>（key,value）</code>对都能存储在同一区域内。因此，由于化简服务器i读取所有映射服务器区域i中的数据，有相同key的所有<code>（key,value）</code>对将由相应的化简服务器i收集。 </p>
-<p><img src="/2021/01/04/MapReduce/image-20210105201025104.png" alt="image-20210105201025104"></p>
-<p>8.同步：当所有映射任务完成，他们之间的通信开始</p>
-<p>9.通信：Reduce服务器i已经知道所有映射服务器的区域i的位置，使用远程过程调用来从所有映射服务器的各个区域中读取数据。由于所有化简服务器从所有映射服务器中读取数据，映射和化简服务器之间的多对多通信在网络中进行，会引发网络拥塞。这个问题是提高此类系统性能的一个主要瓶颈。</p>
-<p>10.排序和分组：当化简服务器完成读取输入数据的过程时，数据首先在化简服务器的本地磁盘中缓冲。然后化简服务器根据key将数据排序来对中间(key, value)对进行分组，之后对出现的所有相同key进行分组。注意，缓冲数据已经排序并分组，因为一个映射服务器产生的唯一key的数量可能会多于R个区域，所以在每个映射服务器区域中可能有不止一个key。</p>
-<p>11.Reduce函数：简化服务器在已分组的<code>（key,value）</code>对上的迭代。对于每一个唯一的key，把key对应的value发送给Reduce函数，然后把这个函数出来输入数据，最后的结果存入用户程序指定的文件中。</p>
-<p><img src="/2021/01/04/MapReduce/image-20210105205303260.png" alt="image-20210105205303260"></p>
-<h4 id="来自Apache的Hadoop软件库"><a href="#来自Apache的Hadoop软件库" class="headerlink" title="来自Apache的Hadoop软件库"></a>来自Apache的Hadoop软件库</h4><p>Hadoop是Apache用Java实现的MapReduce开源实现，使用HDFS作为底层，MapReduce引擎是运行在HDFS上的计算引擎，HDFS是他的数据存储管理器。</p>
-<p>HDFS：源于GFS的分布式文件系统，分布式计算系统上管理文件和存储数据</p>
-<p><img src="/2021/01/04/MapReduce/image-20210106100205802.png" alt="image-20210106100205802"></p>
-<p>HDFS体系结构：主从体系结构，包括单个NameNode(master)和多个DataNode(slave)。HDFS将文件分为固定大小的块，并存放在工作机中，块的映射由Namenode决定。master也管理文件系统的元数据和命名空间，在系统中，命名空间是维护元数据的区域，元数据是指一个文件系统存储的所有信息。是所有文件的全面管理所需要的。</p>
-<p><img src="/2021/01/04/MapReduce/image-20210106103330168.png" alt="image-20210106103330168"></p>
-<p>HDFS特性：HDFS不支持安全性，主要讨论两个特性</p>
-<ul>
-<li><p>容错能力：Hadoop设计时默认部署在廉价的硬件上，系统故障很常见。</p>
-<ul>
-<li>块复制：HDFS把文件存储为一个块集，每个块都有备份并且在整个集群上分发。</li>
-<li>备份布置：提供更大的可靠性，但通信成本稍高</li>
-<li>HeartBeat和LockReport消息：这两个消息都由DataNode传输给NameNode，收到Heartbeat意味着DataNode正常运行，而每个Blockreport包括DataNode上所有块的清单</li>
-</ul>
-</li>
-<li><p>高吞吐量访问大规模数据集：因为是为批处理设计而非交互式处理，所以吞吐量比延时更重要。</p>
-</li>
-</ul>
-<p>HDFS操作：控制流能正确突出在管理操作中NameNode和DataNode的角色</p>
-<ul>
-<li>读取文件：用户发送Open请求给NameNode来获取文件块位置信息</li>
-<li>写入文件：用户发送create请求给NameNode来在命名空间里创建文件</li>
-</ul>
-<h4 id="Hadoop里运行作业"><a href="#Hadoop里运行作业" class="headerlink" title="Hadoop里运行作业"></a>Hadoop里运行作业</h4><p><img src="/2021/01/04/MapReduce/image-20210105214423025.png" alt="image-20210105214423025"></p>
-<ul>
-<li><p>作业提交：每个作业由用户提交到master</p>
-<ul>
-<li>用户从master请求新ID，并计算输入文件分块</li>
-<li>用户复制资源l比如用户的JAR文件、配置文件和计算输入分块，至JobTracker文件系统。</li>
-<li>用户节点通过调用submitJob()函数提交任务至JobTracker。</li>
-</ul>
-</li>
-<li><p>任务分配：JobTracker为用户节点的每个计算输入块建立一个映射任务，并分配给TaskTracker的执行槽。当分配映射任务给TaskTracker时，JobTracker会考虑数据的定位。JobTracker也会创建化简任务，并分配给TaskTracker。 </p>
-</li>
-<li><p>任务执行：把作业JAR文件复制到其文件系统之后，在TaskTracker执行一个任务（不管映射还是化简）的控制流就开始了。在启动Java虚拟机（Java Virtual Machine，JVM）来运行它的映射或化简任务后，就开始执行作业JAR文件里的指令。</p>
-</li>
-<li><p>任务运行校验：通过接收从TaskTracker到JobTracker的周期性心跳监听消息来完成任务运行校验。每个心跳监听会告知JobTracker传送中的TaskTracker是可用的，以及传送中的TaskTracker是否准备好运行一个新的任务。 </p>
-</li>
-</ul>
-<p><img src="/2021/01/04/MapReduce/image-20210106104041624.png" alt="image-20210106104041624"></p>
-<p><img src="/2021/01/04/MapReduce/image-20210106104054859.png" alt="image-20210106104054859"></p>
+          <h2 id="Scala编程方法简化版"><a href="#Scala编程方法简化版" class="headerlink" title="Scala编程方法简化版"></a>Scala编程方法简化版</h2><h3 id="1-变量常量"><a href="#1-变量常量" class="headerlink" title="1.变量常量"></a>1.变量常量</h3><p>字符数字标识符：字母或者下划线开头，<code>$</code>被认作字母</p>
+<h6 id="运算符优先级："><a href="#运算符优先级：" class="headerlink" title="运算符优先级："></a>运算符优先级：</h6><p>先乘除后加减</p>
+<p>先算数，后移位，最后位运算</p>
+<p>指针最优，单目优于双目</p>
+<p>var 声明变量，val声明常量</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> hellostr=<span class="string">"Hello World"</span></span><br><span class="line"><span class="comment">//hellostr:string = Hello World</span></span><br><span class="line"><span class="comment">//定义后不能修改</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> hellostr1=<span class="string">"Hello World"</span></span><br><span class="line"><span class="comment">//hellostr1:string = Hello World</span></span><br></pre></td></tr></table></figure>
+
+<p>在声明变量和常量不一定需要指定数据类型，没有指明时通过初始值推断。<strong>变量常量必须付初始值，否则会报错</strong></p>
+<p>可以用val声明一个元组</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> mr=(<span class="string">"key"</span>,<span class="number">22</span>)</span><br><span class="line"><span class="comment">//mr:(string,int)=(key,22)</span></span><br></pre></td></tr></table></figure>
+
+<p>Scala与Java有相同的变量类型，但是首字母必须大写，因为是对象，例如Int,String,Boolean</p>
+<p>可以直接用<code>0x</code>表示16进制，<code>0</code>表示8进制，表示<code>Long</code>用<code>L</code>或者<code>l</code>作为后缀，表示<code>float</code>用<code>F/f</code>否则默认为double</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> x=<span class="number">41</span></span><br><span class="line"><span class="keyword">val</span> x=<span class="number">0x29</span></span><br><span class="line"><span class="keyword">val</span> x=<span class="number">051</span></span><br><span class="line"><span class="comment">//x:Int=41</span></span><br><span class="line"><span class="keyword">val</span> x = <span class="number">0777</span>l</span><br><span class="line"><span class="comment">//x:Long=511</span></span><br><span class="line"><span class="keyword">val</span> f = <span class="number">3.14</span>f</span><br><span class="line"><span class="comment">//f:Float=3.14</span></span><br><span class="line"><span class="keyword">val</span> f=<span class="number">3.14</span><span class="comment">//0.314e1</span></span><br><span class="line"><span class="comment">//f:Double=3.14</span></span><br></pre></td></tr></table></figure>
+
+<p>单字符用‘ ’引用，特殊字符要添加转义字符\，双引号同理</p>
+<p>Scala还提供一种原样字符内容输出方法，用<code>“&quot;&quot;</code>的方式来表述</p>
+<p><img src="/2021/01/06/scala/image-20210107142102498.png" alt="image-20210107142102498"></p>
+<h3 id="2-流程控制与函数"><a href="#2-流程控制与函数" class="headerlink" title="2.流程控制与函数"></a>2.流程控制与函数</h3><h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><p>if语句与C++相似，有if,if…else…,if…elseif…else</p>
+<p>但if可以作为表达式使用：且可以直接赋值</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> x=<span class="keyword">if</span>(<span class="string">"hello"</span>==<span class="string">"hell"</span>) <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line"><span class="comment">//x:Int=0</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h4><h5 id="while"><a href="#while" class="headerlink" title="while"></a>while</h5><p>Scala中while与C++同，唯一不一样的是有返回值且恒为Unit(相当于void，<code>Unit=()</code>)</p>
+<h5 id="for"><a href="#for" class="headerlink" title="for"></a>for</h5><p>for循环Scala有自己的风格，基础格式为</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(i&lt;-表达式)&#123;</span><br><span class="line">	<span class="comment">//循环语句</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1.其中<code>&lt;-</code>称为生成器（generator），而for循环实际上是通过集合遍历来实现循环的</p>
+<p> 2.表达式调用<code>RichInt</code>中的<code>to，until</code>方法来实现遍历，例如：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(i &lt;- <span class="number">1</span> to <span class="number">5</span>) println(<span class="string">"i="</span>+i)</span><br><span class="line"><span class="comment">//i=1</span></span><br><span class="line"><span class="comment">//i=2</span></span><br><span class="line"><span class="comment">//i=3</span></span><br><span class="line"><span class="comment">//i=4</span></span><br><span class="line"><span class="comment">//i=5</span></span><br></pre></td></tr></table></figure>
+
+<p>3.如果希望集合右开，[1,5)则用<code>1 until 5</code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(i &lt;- <span class="number">1</span> until (<span class="number">10</span>,<span class="number">2</span>)) print(<span class="string">"i="</span>+i)</span><br><span class="line"><span class="comment">//这里的2是步长</span></span><br></pre></td></tr></table></figure>
+
+<p>4.引入break：Scala没有break,continue，但实现类似操作有两种方法</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入scala.util.control.Breaks类</span></span><br><span class="line"><span class="comment">//有条件过滤的for循环格式为</span></span><br><span class="line"><span class="keyword">for</span>(i &lt;- <span class="number">1</span> to <span class="number">40</span> <span class="keyword">if</span>(i%<span class="number">4</span>==<span class="number">0</span>);<span class="keyword">if</span>(i%<span class="number">5</span>==<span class="number">0</span>))&#123;<span class="comment">//这里中间是&amp;&amp;关系</span></span><br><span class="line">	println(<span class="string">"i="</span>+i)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//i=20</span></span><br><span class="line"><span class="comment">//i=40</span></span><br></pre></td></tr></table></figure>
+
+<p>5.多重for循环：Scala支持for循环嵌套</p>
+<p>6.for表达式：与yield配合使用执行完后有返回值：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x =<span class="keyword">for</span>(i &lt;- <span class="number">1</span> to <span class="number">5</span>) <span class="keyword">yield</span> i/<span class="number">2</span></span><br><span class="line"><span class="comment">//x:scala.collection.immutable.IndexedSeq[Int]=vector(0,1,1,2,2)</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="函数声明，定义和调用"><a href="#函数声明，定义和调用" class="headerlink" title="函数声明，定义和调用"></a>函数声明，定义和调用</h5><h6 id="包："><a href="#包：" class="headerlink" title="包："></a>包：</h6><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义包</span></span><br><span class="line"><span class="comment">//第一种方式</span></span><br><span class="line"><span class="keyword">package</span> com.baidu</span><br><span class="line"><span class="comment">//第二种方式</span></span><br><span class="line"><span class="keyword">package</span> com.dubai1&#123;...&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//引用包</span></span><br><span class="line"><span class="keyword">import</span> java.awt.<span class="type">Color</span></span><br><span class="line"><span class="keyword">import</span> java.awt_<span class="comment">//引入包内所有成员</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span></span>(&#123;参数列表&#125;):[<span class="keyword">return</span> <span class="class"><span class="keyword">type</span>]</span></span><br><span class="line"><span class="class"><span class="title">//定义</span></span></span><br><span class="line"><span class="class"><span class="title">def</span> <span class="title">fun</span>(<span class="params">&#123;参数列表&#125;</span>)</span>:[<span class="keyword">return</span> <span class="class"><span class="keyword">type</span>]</span>=&#123;</span><br><span class="line">    function body</span><br><span class="line">    <span class="keyword">return</span> [expr]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//调用的格式</span></span><br><span class="line">fun(参数列表)</span><br><span class="line"><span class="comment">//如果函数使用了实例的对象来调用，可以使用类似java的格式 (使用 . 号)：</span></span><br><span class="line">[instance.]fun(参数列表)</span><br></pre></td></tr></table></figure>
+
+<h3 id="类和对象"><a href="#类和对象" class="headerlink" title="类和对象"></a>类和对象</h3><p>Scala用New来创建对象</p>
+<p>类的第一个字母大写，方法的第一个字母小写</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io._</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span>(<span class="params">val xc: <span class="type">Int</span>, val yc: <span class="type">Int</span></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> x: <span class="type">Int</span> = xc</span><br><span class="line">   <span class="keyword">var</span> y: <span class="type">Int</span> = yc</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">move</span></span>(dx: <span class="type">Int</span>, dy: <span class="type">Int</span>) &#123;</span><br><span class="line">      x = x + dx</span><br><span class="line">      y = y + dy</span><br><span class="line">      println (<span class="string">"Point x location : "</span> + x);</span><br><span class="line">      println (<span class="string">"Point y location : "</span> + y);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]) &#123;</span><br><span class="line">      <span class="keyword">val</span> pt = <span class="keyword">new</span> <span class="type">Point</span>(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Move to a new location</span></span><br><span class="line">      pt.move(<span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Point x location:20</span></span><br><span class="line"><span class="comment">//Point y location:30</span></span><br></pre></td></tr></table></figure>
+
+<p>类继承：extend  隐形类：impact  </p>
+<h3 id="集合：数组、列表与映射"><a href="#集合：数组、列表与映射" class="headerlink" title="集合：数组、列表与映射"></a>集合：数组、列表与映射</h3><h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明</span></span><br><span class="line"><span class="keyword">var</span> z:<span class="type">Array</span>[<span class="type">String</span>] = <span class="keyword">new</span> <span class="type">Array</span>[<span class="type">String</span>](<span class="number">3</span>)</span><br><span class="line"><span class="keyword">var</span> z = <span class="type">Array</span>(<span class="string">"Hello"</span>，<span class="string">"Cruel"</span>，<span class="string">"World"</span>)</span><br><span class="line"><span class="comment">//赋值</span></span><br><span class="line">z(<span class="number">0</span>)=<span class="string">"Hello"</span>;z(<span class="number">1</span>)=<span class="string">"Cruel"</span>;z(<span class="number">4</span>/<span class="number">2</span>)=<span class="string">"World"</span></span><br><span class="line"><span class="comment">//多维数组</span></span><br><span class="line"><span class="keyword">var</span> myMatrix = ofDim[<span class="type">Int</span>](<span class="number">3</span>,<span class="number">3</span>)</span><br><span class="line"><span class="comment">//简单数组操作：</span></span><br><span class="line"><span class="comment">//合并：</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">concat</span></span>[<span class="type">T</span>]( xss: <span class="type">Array</span>[<span class="type">T</span>]* ): <span class="type">Array</span>[<span class="type">T</span>]</span><br><span class="line"><span class="comment">//复制：</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">copy</span></span>( src: <span class="type">AnyRef</span>, srcPos: <span class="type">Int</span>, dest: <span class="type">AnyRef</span>, destPos: <span class="type">Int</span>, length: <span class="type">Int</span> ): <span class="type">Unit</span></span><br><span class="line"><span class="comment">//mkString方法：</span></span><br><span class="line">mkString（“&lt;”,”,”,”&gt;”）</span><br><span class="line"><span class="comment">//得用&lt;&gt;所扩，”，”分隔的字符串</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 字符串列表</span></span><br><span class="line"><span class="keyword">val</span> site: <span class="type">List</span>[<span class="type">String</span>] = <span class="type">List</span>(<span class="string">"Runoob"</span>, <span class="string">"Google"</span>, <span class="string">"Baidu"</span>)</span><br><span class="line"><span class="comment">// 整型列表</span></span><br><span class="line"><span class="keyword">val</span> nums: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"><span class="comment">// 二维列表</span></span><br><span class="line"><span class="keyword">val</span> dim: <span class="type">List</span>[<span class="type">List</span>[<span class="type">Int</span>]] =</span><br><span class="line">	<span class="type">List</span>(</span><br><span class="line">		<span class="type">List</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">		<span class="type">List</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>),</span><br><span class="line">		<span class="type">List</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">	)</span><br><span class="line"><span class="comment">//遍历</span></span><br><span class="line"><span class="keyword">for</span>(i&lt;-<span class="type">List</span>)</span><br><span class="line"><span class="comment">//创建列表</span></span><br><span class="line"><span class="keyword">val</span> nums =<span class="number">1</span>::<span class="number">2</span>::<span class="number">3</span>::<span class="number">4</span>::<span class="type">Nil</span></span><br><span class="line"><span class="comment">//nums:List[Int]=List(1,2,3,4)</span></span><br><span class="line"><span class="comment">//获取第一个第二个，最后一个元素</span></span><br><span class="line"><span class="type">List</span>.head <span class="type">List</span>.tail <span class="type">List</span>.last</span><br><span class="line"><span class="comment">//连接操作</span></span><br><span class="line"><span class="type">List1</span>:::<span class="type">List2</span></span><br><span class="line"><span class="comment">//获取和丢弃</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/06/scala/image-20210107152128223.png" alt="image-20210107152128223"></p>
+<h4 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h4><p>•Scala中的映射是键/值对的集合。任何值可以根据它的键进行检索。键是在映射唯一的，但值不一定是唯一的。</p>
+<p>•映射也被称为哈希表。有两种类型的映射，不可变以及可变的。可变和不可变的对象之间的区别在于，当一个对象是不可变的，对象本身不能被改变。</p>
+<p>•默认情况下，Scala中使用不可变的映射。如果想使用可变集，必须明确地导入scala.collection.mutable.Map类。但是可以通过生成新的映射来对原来的值进行改变。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> colors = <span class="type">Map</span>(<span class="string">"red"</span> -&gt; <span class="string">"#FF0000"</span>, <span class="string">"azure"</span> -&gt; <span class="string">"#F0FFFF"</span>)</span><br><span class="line"><span class="comment">//colors:scala.collection.immutable.Map[String,String]=Map(red-&gt;#FF0000,azure-&gt;#F0FFFF)</span></span><br></pre></td></tr></table></figure>
+
+<p>基本操作：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keys</td>
+<td>返回 Map 所有的键(key)</td>
+</tr>
+<tr>
+<td>values</td>
+<td>返回 Map 所有的值(value)</td>
+</tr>
+<tr>
+<td>isEmpty</td>
+<td>在 Map 为空时返回true</td>
+</tr>
+</tbody></table>
+<p>使用++运算符或Map.++()来连接两个map ,Map合并时会移除重复的Key</p>
+<p><img src="/2021/01/06/scala/image-20210107152502957.png" alt="image-20210107152502957"></p>
 
           
             <div class='article_footer'>
@@ -596,7 +615,7 @@
           
         
           
-            <p>本文永久链接是：<a href=http://yokeso.top/2021/01/04/MapReduce/>http://yokeso.top/2021/01/04/MapReduce/</a></p>
+            <p>本文永久链接是：<a href=http://yokeso.top/2021/01/06/scala/>http://yokeso.top/2021/01/06/scala/</a></p>
           
         
       </blockquote>
@@ -647,10 +666,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-06T10:48:17+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-07T15:54:35+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jan 6, 2021</p>
+    <p>更新于：Jan 7, 2021</p>
   </a>
 </div>
 
@@ -674,7 +693,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yokeso.top/2021/01/04/MapReduce/&title=MapReduce - Yokeso&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yokeso.top/2021/01/06/scala/&title=scala - Yokeso&summary="
           
           >
           
@@ -686,7 +705,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yokeso.top/2021/01/04/MapReduce/&title=MapReduce - Yokeso&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yokeso.top/2021/01/06/scala/&title=scala - Yokeso&summary="
           
           >
           
@@ -698,7 +717,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://yokeso.top/2021/01/04/MapReduce/&title=MapReduce - Yokeso&summary="
+          href="http://service.weibo.com/share/share.php?url=http://yokeso.top/2021/01/06/scala/&title=scala - Yokeso&summary="
           
           >
           
@@ -722,8 +741,9 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2021/01/06/spark/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>spark</p>
+            
+              <a class='next' href='/2021/01/06/spark/'>
+                <p class='title'>spark<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>SPARK1.为什么要用Spark
 speed ：比Hadoop快100倍，比disk快十倍
 
@@ -731,14 +751,6 @@ Ease of use：比java,Scala,Python,R写程序块
 
 Generality
 ...</p>
-              </a>
-            
-            
-              <a class='next' href='/2021/01/03/Distributed-cloud-computing/'>
-                <p class='title'>Distributed_cloud-computing<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>第一章 分布式系统模型和关键技术1.1互联网上的可扩展计算一个并行的、分布式的计算系统使用大量的计算机解决互联网上的大规模计算问题。   分布式计算的缺点是数据敏感和网络中心化
-
-计算范式之间区...</p>
               </a>
             
           </div>
@@ -793,7 +805,7 @@ Generality
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MapReduce原理及介绍"><span class="toc-text">MapReduce原理及介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MapReduce形式化定义"><span class="toc-text">MapReduce形式化定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MapReduce逻辑数据流"><span class="toc-text">MapReduce逻辑数据流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单词计数顺序"><span class="toc-text">单词计数顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MapReduce真实数据和控制流"><span class="toc-text">MapReduce真实数据和控制流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#来自Apache的Hadoop软件库"><span class="toc-text">来自Apache的Hadoop软件库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop里运行作业"><span class="toc-text">Hadoop里运行作业</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Scala编程方法简化版"><span class="toc-text">Scala编程方法简化版</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-变量常量"><span class="toc-text">1.变量常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-流程控制与函数"><span class="toc-text">2.流程控制与函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#if语句"><span class="toc-text">if语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#循环语句"><span class="toc-text">循环语句</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#while"><span class="toc-text">while</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#for"><span class="toc-text">for</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#函数声明，定义和调用"><span class="toc-text">函数声明，定义和调用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类和对象"><span class="toc-text">类和对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集合：数组、列表与映射"><span class="toc-text">集合：数组、列表与映射</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数组"><span class="toc-text">数组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列表"><span class="toc-text">列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Map"><span class="toc-text">Map</span></a></li></ol></li></ol></li></ol>
     </div>
   </section>
 
