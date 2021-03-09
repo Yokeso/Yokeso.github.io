@@ -1,501 +1,328 @@
 <!DOCTYPE html>
-<html>
-<head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/3.0.0'>
-  <meta charset="utf-8">
-  <!-- SEO相关 -->
-  
-    
-  
-  <!-- 渲染优化 -->
-  <meta name="renderer" content="webkit">
-  <meta name="force-rendering" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-  <meta name="HandheldFriendly" content="True" >
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
 
-  <!-- 页面元数据 -->
-  
-  <title>Distributed_cloud-computing - Yokeso</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yokeso.top","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="第一章 分布式系统模型和关键技术1.1互联网上的可扩展计算一个并行的、分布式的计算系统使用大量的计算机解决互联网上的大规模计算问题。   分布式计算的缺点是数据敏感和网络中心化  计算范式之间区别集中式计算：计算资源存储在一个物理系统内，所有资源共享，紧耦合在一个集成式操作系统中 并行计算：所有处理器紧耦合于中心共享内存或松耦合于分布式内存 分布式计算：众多自治的计算机组成，拥有私有内存，通过计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Distributed_cloud-computing">
+<meta property="og:url" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/index.html">
+<meta property="og:site_name" content="Yokeso">
+<meta property="og:description" content="第一章 分布式系统模型和关键技术1.1互联网上的可扩展计算一个并行的、分布式的计算系统使用大量的计算机解决互联网上的大规模计算问题。   分布式计算的缺点是数据敏感和网络中心化  计算范式之间区别集中式计算：计算资源存储在一个物理系统内，所有资源共享，紧耦合在一个集成式操作系统中 并行计算：所有处理器紧耦合于中心共享内存或松耦合于分布式内存 分布式计算：众多自治的计算机组成，拥有私有内存，通过计算">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103101834253.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103104520742.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103104933760.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103105242598.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103105756172.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103111007166.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103111806694.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103131438789.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103141520694.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103152653011.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103162023316.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104105513118.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104105602739.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104105813088.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104113827935.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104132219474.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104143018926.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104150739351.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104165649219.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104165659938.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104165707706.png">
+<meta property="og:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210104165716339.png">
+<meta property="article:published_time" content="2021-01-03T02:17:09.000Z">
+<meta property="article:modified_time" content="2021-01-07T14:58:11.495Z">
+<meta property="article:author" content="BigtreeLiu">
+<meta property="article:tag" content="Bolg,Yokeso,BigtreeLiu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yokeso.top/2021/01/03/Distributed-cloud-computing/image-20210103101834253.png">
+
+
+<link rel="canonical" href="http://yokeso.top/2021/01/03/Distributed-cloud-computing/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Distributed_cloud-computing | Yokeso</title>
   
 
-  
 
-  <!-- feed -->
-  
-    <link rel="alternate" href="/atom.xml" title="Yokeso">
-  
 
-  <!-- import meta -->
-  
 
-  <!-- link -->
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
 
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css">
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
 
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
 
-  
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
 
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
 
-  
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
 
-  
-
-  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
-  
-
-  
-
-  <!-- import link -->
-  
-
-  
-  
-    
-<link rel="stylesheet" href="/css/style.css">
-
-  
-
-  
-  
+<link rel="alternate" href="/atom.xml" title="Yokeso" type="application/atom+xml">
 </head>
 
-<body>
-  <header class="l_header shadow blur" style='opacity: 0'>
-  <div class='container'>
-  <div class='wrapper'>
-    <div class='nav-sub'>
-      <p class="title"></p>
-      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
-        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
-        
-          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
-        
-      </ul>
-    </div>
-		<div class="nav-main">
-      
-        
-        <a class="title flat-box" target="_self" href='/'>
-          
-            <img no-lazy class='logo' src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
-          
-          
-          
-        </a>
-      
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
-			<div class='menu navigation'>
-				<ul class='nav-list-h m-pc'>
-          
-          
-          
-            
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/
-                  
-                  
-                  
-                    id="home"
-                  >
-                  <i class='fas fa-rss fa-fw'></i>博客
-                </a>
-                
-              </li>
-            
-          
-          
-            
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
-                  
-                  
-                  
-                    id="categories"
-                  >
-                  <i class='fas fa-folder-open fa-fw'></i>分类
-                </a>
-                
-              </li>
-            
-          
-          
-            
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
-                  
-                  
-                  
-                    id="tags"
-                  >
-                  <i class='fas fa-tags fa-fw'></i>标签
-                </a>
-                
-              </li>
-            
-          
-          
-            
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
-                  
-                  
-                  
-                    id="archives"
-                  >
-                  <i class='fas fa-archive fa-fw'></i>归档
-                </a>
-                
-              </li>
-            
-          
-          
-            
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
-                  
-                  
-                  
-                    id="friends"
-                  >
-                  <i class='fas fa-link fa-fw'></i>友链
-                </a>
-                
-              </li>
-            
-          
-          
-            
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
-                  
-                  
-                  
-                    id="about"
-                  >
-                  <i class='fas fa-info-circle fa-fw'></i>关于
-                </a>
-                
-              </li>
-            
-          
-          
-				</ul>
-			</div>
-
-      <div class="m_search">
-        <form name="searchform" class="form u-search-form">
-          <i class="icon fas fa-search fa-fw"></i>
-          <input type="text" class="input u-search-input" placeholder="Search..." />
-        </form>
-      </div>
-
-			<ul class='switcher nav-list-h m-phone'>
-				
-					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
-				
-				<li>
-          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
-          <ul class="menu-phone list-v navigation white-box">
-            
-              
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/
-                  
-                  
-                  
-                    id="home"
-                  >
-                  <i class='fas fa-rss fa-fw'></i>博客
-                </a>
-                
-              </li>
-            
-          
-            
-              
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
-                  
-                  
-                  
-                    id="categories"
-                  >
-                  <i class='fas fa-folder-open fa-fw'></i>分类
-                </a>
-                
-              </li>
-            
-          
-            
-              
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
-                  
-                  
-                  
-                    id="tags"
-                  >
-                  <i class='fas fa-tags fa-fw'></i>标签
-                </a>
-                
-              </li>
-            
-          
-            
-              
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
-                  
-                  
-                  
-                    id="archives"
-                  >
-                  <i class='fas fa-archive fa-fw'></i>归档
-                </a>
-                
-              </li>
-            
-          
-            
-              
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
-                  
-                  
-                  
-                    id="friends"
-                  >
-                  <i class='fas fa-link fa-fw'></i>友链
-                </a>
-                
-              </li>
-            
-          
-            
-              
-            
-              <li>
-                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
-                  
-                  
-                  
-                    id="about"
-                  >
-                  <i class='fas fa-info-circle fa-fw'></i>关于
-                </a>
-                
-              </li>
-            
-          
-            
-          </ul>
-        </li>
-			</ul>
-		</div>
-	</div>
-  </div>
-</header>
-
-  
-  
-  
-  <div class="cover-wrapper">
-    <div class='cover post' style="display: none;">
-      <div class='cover-bg lazyload placeholder' data-bg=""></div>
-      <div class='cover-body'>
-  <div class='a'>
-    
-      <img no-lazy class='logo' src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-Cover@3x.png'/>
-    
-    
-    
-  </div>
-  <div class='b'>
-    <div class='menu navigation dock'>
-      <div class='list-h'>
-        
-          
-            <a href="/v3/getting-started/"
-              
-              
-              id="v3getting-started">
-              <i class='fas fa-book fa-fw'></i><p>文档</p>
-            </a>
-          
-            <a href="/faqs/"
-              
-              
-              id="faqs">
-              <i class='fas fa-question-circle fa-fw'></i><p>帮助</p>
-            </a>
-          
-            <a href="/examples/"
-              
-              
-              id="examples">
-              <i class='fas fa-play-circle fa-fw'></i><p>示例</p>
-            </a>
-          
-            <a href="/contributors/"
-              
-              
-              id="contributors">
-              <i class='fas fa-fan fa-spin fa-fw'></i><p>社区</p>
-            </a>
-          
-        
-      </div>
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
-</div>
 
-      <div class="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
-    </div>
-  </div>
-  
+  <div class="site-meta">
 
-
-  <div class="l_body nocover">
-    <div class='body-wrapper' id="pjax-container">
-      
-        <!--此文件用来存放一些不方便取值的变量-->
-<!--思路大概是将值藏到重加载的区域内-->
-
-
-
-<div id="pjax-data" style="display: none">
-  <div id="pjax-ispage">true</div>
-  <div id="pjax-pageTitle">Distributed_cloud-computing</div>
-  <div id="pjax-enable-cover">true</div>
-  <div id="pjax-comment-path">none</div>
-  <div id="pjax-comment-placeholder">none</div>
-</div>
-
-
-<script>
-  // 处理封面 此时 jquery 还没加载
-  if ("none" == "none") { // 移除封面
-    document.getElementsByClassName('cover')[0].style.display = "none"; 
-    document.getElementsByClassName('l_body')[0].classList.add("nocover");
-    document.getElementsByClassName('l_header', 'cover-wrapper')[0].classList.add("show");
-  } else {
-    if ("none" == "blog") { // 半屏
-      document.getElementsByClassName('cover')[0].classList.remove("full");
-      document.getElementsByClassName('cover')[0].classList.add("half");
-      document.getElementsByClassName('scroll-down')[0].style.display = "none";
-    } else if ("none" == "docs") { // 全屏
-      document.getElementsByClassName('cover')[0].classList.remove("half");
-      document.getElementsByClassName('cover')[0].classList.add("full");
-      document.getElementsByClassName('scroll-down')[0].style.display = "";
-    }
-    document.getElementsByClassName('cover')[0].style.display = "";
-    document.getElementsByClassName('l_body', 'show')[0].classList.remove("nocover");
-    document.getElementsByClassName('l_header', 'cover-wrapper')[0].classList.remove("show");
-  }
-</script>
-
-
-      
-      
-
-<div class='l_main'>
-  
-
-  
-    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
-      
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h1 class="title">
-    <a href="/2021/01/03/Distributed-cloud-computing/">
-      Distributed_cloud-computing
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Yokeso</h1>
+      <i class="logo-line"></i>
     </a>
-  </h1>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
 
 
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">0</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">22</span></a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
         
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="">
-    <p>请设置文章作者</p>
-  </a>
-</div>
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
 
-            
-          
-            
-              
+  <aside class="sidebar">
 
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jan 3, 2021</p>
-  </a>
-</div>
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-            
-          
-            
-              
-
-            
-          
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF"><span class="nav-number">1.</span> <span class="nav-text">第一章 分布式系统模型和关键技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E4%BA%92%E8%81%94%E7%BD%91%E4%B8%8A%E7%9A%84%E5%8F%AF%E6%89%A9%E5%B1%95%E8%AE%A1%E7%AE%97"><span class="nav-number">1.1.</span> <span class="nav-text">1.1互联网上的可扩展计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E8%8C%83%E5%BC%8F%E4%B9%8B%E9%97%B4%E5%8C%BA%E5%88%AB"><span class="nav-number">1.2.</span> <span class="nav-text">计算范式之间区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%92%8C%E4%BA%91%E8%AE%A1%E7%AE%97%E7%B3%BB%E7%BB%9F%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">分布式和云计算系统模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E9%9B%86%E7%BE%A4"><span class="nav-number">1.4.</span> <span class="nav-text">协同计算机集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%91%E8%AE%A1%E7%AE%97"><span class="nav-number">1.5.</span> <span class="nav-text">互联网云计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E3%80%81%E5%AE%89%E5%85%A8%E5%92%8C%E8%8A%82%E8%83%BD"><span class="nav-number">1.6.</span> <span class="nav-text">性能、安全和节能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E5%BA%A6%E9%87%8F"><span class="nav-number">1.6.1.</span> <span class="nav-text">性能度量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%9B%86%E7%BE%A4%E5%92%8C%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">第三章 虚拟机集群和数据中心虚拟化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E8%99%9A%E6%8B%9F%E5%8C%96%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%B1%82%E6%AC%A1"><span class="nav-number">2.1.</span> <span class="nav-text">3.1 虚拟化的实现层次</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E5%AE%9E%E7%8E%B0%E5%B1%82%E6%AC%A1"><span class="nav-number">2.1.1.</span> <span class="nav-text">虚拟化实现层次</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VMM%E8%AE%BE%E8%AE%A1%E9%9C%80%E6%B1%82"><span class="nav-number">2.1.2.</span> <span class="nav-text">VMM设计需求</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%EF%BC%9A"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">需求：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%EF%BC%9A"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">资源：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BA%A7%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-number">2.1.3.</span> <span class="nav-text">操作系统级虚拟化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2%E8%99%9A%E6%8B%9F%E5%8C%96%E7%9A%84%E7%BB%93%E6%9E%84%E3%80%81%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%9C%BA%E5%88%B6"><span class="nav-number">2.2.</span> <span class="nav-text">3.2虚拟化的结构、工具与机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E8%99%9A%E6%8B%9F%E5%8C%96%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BF%BB%E8%AF%91"><span class="nav-number">2.2.1.</span> <span class="nav-text">全虚拟化的二进制翻译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E6%94%AF%E6%8C%81%E7%9A%84%E5%8D%8A%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="nav-number">2.2.2.</span> <span class="nav-text">编译器支持的半虚拟化技术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3CPU%E3%80%81%E5%86%85%E5%AD%98%E5%92%8CIO%E8%AE%BE%E5%A4%87%E7%9A%84%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-number">2.3.</span> <span class="nav-text">3.3CPU、内存和IO设备的虚拟化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E7%9A%84%E7%A1%AC%E4%BB%B6%E6%94%AF%E6%8C%81"><span class="nav-number">2.3.1.</span> <span class="nav-text">虚拟化的硬件支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-number">2.3.2.</span> <span class="nav-text">CPU虚拟化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-number">2.3.3.</span> <span class="nav-text">内存虚拟化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#I-O%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-number">2.3.4.</span> <span class="nav-text">I&#x2F;O虚拟化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E6%A0%B8%E5%A4%84%E7%90%86%E5%99%A8%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-number">2.3.5.</span> <span class="nav-text">多核处理器虚拟化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E8%99%9A%E6%8B%9F%E9%9B%86%E7%BE%A4%E4%B8%8E%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86"><span class="nav-number">2.4.</span> <span class="nav-text">3.4 虚拟集群与资源管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E9%9B%86%E7%BE%A4%E4%B8%8E%E8%99%9A%E6%8B%9F%E9%9B%86%E7%BE%A4"><span class="nav-number">2.4.1.</span> <span class="nav-text">物理集群与虚拟集群</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F-%E9%83%A8%E7%BD%B2%E5%92%8C%E6%9C%89%E6%95%88%E8%B0%83%E5%BA%A6"><span class="nav-number">2.4.2.</span> <span class="nav-text">快速 部署和有效调度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%EF%BC%9A"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">快速部署：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AB%98%E6%80%A7%E8%83%BD%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8"><span class="nav-number">2.4.3.</span> <span class="nav-text">高性能虚拟存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BF%E8%BF%81%E7%A7%BB%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%AD%A5%E9%AA%A4%E4%B8%8E%E6%80%A7%E8%83%BD%E5%BD%B1%E5%93%8D"><span class="nav-number">2.4.4.</span> <span class="nav-text">在线迁移虚拟机的步骤与性能影响</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E8%99%9A%E6%8B%9F%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">2.4.5.</span> <span class="nav-text">管理虚拟集群的四种方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB"><span class="nav-number">2.4.6.</span> <span class="nav-text">虚拟机迁移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E3%80%81%E6%96%87%E4%BB%B6%E4%B8%8E%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90%E8%BF%81%E7%A7%BB"><span class="nav-number">2.4.7.</span> <span class="nav-text">内存、文件与网络资源迁移</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E4%B8%8E%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-number">2.5.</span> <span class="nav-text">3.5 数据中心的自动化与虚拟化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%88%E5%B9%B6"><span class="nav-number">2.5.1.</span> <span class="nav-text">数据中心服务器合并</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86"><span class="nav-number">2.5.2.</span> <span class="nav-text">虚拟存储管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E7%9A%84%E5%8F%AF%E4%BF%A1%E7%AE%A1%E7%90%86"><span class="nav-number">2.5.3.</span> <span class="nav-text">虚拟化数据中心的可信管理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%9A%E6%9E%84%E5%BB%BA%E5%9C%A8%E8%99%9A%E6%8B%9F%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E4%B8%8A%E7%9A%84%E4%BA%91%E5%B9%B3%E5%8F%B0%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">第四章：构建在虚拟化数据中心上的云平台体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E4%BA%91%E8%AE%A1%E7%AE%97%E5%92%8C%E6%9C%8D%E5%8A%A1%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">4.1 云计算和服务模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AC%E6%9C%89%E4%BA%91%E5%92%8C%E7%A7%81%E6%9C%89%E4%BA%91"><span class="nav-number">3.1.1.</span> <span class="nav-text">公有云和私有云</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%91%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="nav-number">3.1.2.</span> <span class="nav-text">云设计目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%8F%8A%E6%9C%8D%E5%8A%A1%EF%BC%88IaaS%EF%BC%89"><span class="nav-number">3.1.3.</span> <span class="nav-text">基础设施及服务（IaaS）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B3%E5%8F%B0%E5%8D%B3%E6%9C%8D%E5%8A%A1%EF%BC%88PaaS%EF%BC%89"><span class="nav-number">3.1.4.</span> <span class="nav-text">平台即服务（PaaS）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E5%8D%B3%E6%9C%8D%E5%8A%A1%EF%BC%88SaaS%EF%BC%89"><span class="nav-number">3.1.5.</span> <span class="nav-text">软件即服务（SaaS）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E8%AE%BE%E8%AE%A1%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91%E7%BB%9C"><span class="nav-number">3.2.</span> <span class="nav-text">4.2 数据中心设计与互联网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E7%AE%A1%E7%90%86%E9%97%AE%E9%A2%98"><span class="nav-number">3.2.1.</span> <span class="nav-text">数据中心管理问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E8%AE%A1%E7%AE%97%E4%B8%8E%E5%AD%98%E5%82%A8%E4%BA%91%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.3.</span> <span class="nav-text">4.3 计算与存储云体系结构设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E4%BA%91%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.3.1.</span> <span class="nav-text">通用云体系结构设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%91%E7%9A%84%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF"><span class="nav-number">3.3.2.</span> <span class="nav-text">云的关键技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E4%BA%91%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">3.3.3.</span> <span class="nav-text">通用云体系结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E5%8C%96%E4%BA%91%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%BC%80%E5%8F%91"><span class="nav-number">3.3.4.</span> <span class="nav-text">层次化云体系结构开发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E6%94%AF%E6%8C%81%E5%92%8C%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D"><span class="nav-number">3.3.5.</span> <span class="nav-text">虚拟化支持和灾难恢复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%8C%91%E6%88%98"><span class="nav-number">3.3.6.</span> <span class="nav-text">体系结构设计挑战</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E9%9D%A2%E5%90%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">第五章 面向服务的分布式体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%92%8C%E9%9D%A2%E5%90%91%E6%9C%8D%E5%8A%A1%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">4.0.1.</span> <span class="nav-text">服务和面向服务体系结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#REST%E5%92%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.0.2.</span> <span class="nav-text">REST和系统的系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WEB%E7%9A%84%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF"><span class="nav-number">4.0.3.</span> <span class="nav-text">WEB的核心技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%81%E4%B8%9A%E5%A4%9A%E5%B1%82%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">4.0.4.</span> <span class="nav-text">企业多层体系结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%9C%8D%E5%8A%A1%E5%92%8COGSA"><span class="nav-number">4.0.5.</span> <span class="nav-text">网络服务和OGSA</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E9%9D%A2%E5%90%91%E6%B6%88%E6%81%AF%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">5.2 面向消息的中间件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%81%E4%B8%9A%E6%80%BB%E7%BA%BF"><span class="nav-number">4.1.1.</span> <span class="nav-text">企业总线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%9E%8B%E5%92%8C%E9%80%9A%E7%9F%A5"><span class="nav-number">4.1.2.</span> <span class="nav-text">发布订阅模型和通知</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E9%97%A8%E6%88%B7%E5%92%8C%E7%A7%91%E5%AD%A6%E7%BD%91%E5%85%B3"><span class="nav-number">4.2.</span> <span class="nav-text">5.3 门户和科学网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E5%8F%91%E7%8E%B0%E3%80%81%E6%B3%A8%E5%86%8C%E8%A1%A8%E3%80%81%E5%85%83%E6%95%B0%E6%8D%AE%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.3.</span> <span class="nav-text">5.4 发现、注册表、元数据和数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UDDI%E5%92%8C%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">4.3.1.</span> <span class="nav-text">UDDI和服务注册表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83"><span class="nav-number">4.3.2.</span> <span class="nav-text">数据库和订阅-发布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%83%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95"><span class="nav-number">4.3.3.</span> <span class="nav-text">元数据目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E4%B9%89Web%E5%92%8C%E7%BD%91%E7%BB%9C"><span class="nav-number">4.3.4.</span> <span class="nav-text">语义Web和网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E7%9B%91%E6%8E%A7"><span class="nav-number">4.3.5.</span> <span class="nav-text">作业执行环境和监控</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-%E9%9D%A2%E5%90%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="nav-number">4.4.</span> <span class="nav-text">5.5 面向服务的体系结构工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">4.4.1.</span> <span class="nav-text">工作流基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%A0%87%E5%87%86"><span class="nav-number">4.4.2.</span> <span class="nav-text">工作流标准</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%BD%93%E7%B3%BB%E5%92%8C%E8%A7%84%E8%8C%83"><span class="nav-number">4.4.3.</span> <span class="nav-text">工作流体系和规范</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E8%BF%90%E8%A1%8C%E5%BC%95%E6%93%8E"><span class="nav-number">4.4.4.</span> <span class="nav-text">工作流运行引擎</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E4%BA%91%E7%BC%96%E7%A8%8B%E5%92%8C%E8%BD%AF%E4%BB%B6%E7%8E%AF%E5%A2%83"><span class="nav-number">5.</span> <span class="nav-text">第六章 云编程和软件环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E4%BA%91%E5%92%8C%E7%BD%91%E7%BB%9C%E5%B9%B3%E5%8F%B0%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">5.1.</span> <span class="nav-text">6.1 云和网络平台的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%92%8C%E4%BA%91%E7%9A%84%E5%85%AC%E5%85%B1%E4%BC%A0%E7%BB%9F%E7%89%B9%E5%BE%81"><span class="nav-number">5.1.1.</span> <span class="nav-text">网络和云的公共传统特征</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%89%B9%E6%80%A7%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">5.1.2.</span> <span class="nav-text">数据特性和数据库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E5%B9%B6%E8%A1%8C%E5%92%8C%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F"><span class="nav-number">5.2.</span> <span class="nav-text">6.2 并行和分布式编程范式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%92%8C%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F"><span class="nav-number">5.2.1.</span> <span class="nav-text">并行计算和编程范式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F%E5%8A%A8%E6%9C%BA"><span class="nav-number">5.2.2.</span> <span class="nav-text">编程范式动机</span></a></li></ol></li></ol></li></ol></div>
         </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BigtreeLiu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">BigtreeLiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
         
-          <hr>
-        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
       </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button site-overview-item animated"><i class="fa fa-comment"></i>
+    聊天
+  </a>
+  </div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Yokeso" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Yokeso" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yokeso@foxmail.com" title="E-Mail → mailto:yokeso@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/xing-chen-da-hai-41-66" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;xing-chen-da-hai-41-66" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
     
-  </section>
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
 
-      <section class="article typo">
-        <div class="article-entry" itemprop="articleBody">
-          
-          
-          <h2 id="第一章-分布式系统模型和关键技术"><a href="#第一章-分布式系统模型和关键技术" class="headerlink" title="第一章 分布式系统模型和关键技术"></a>第一章 分布式系统模型和关键技术</h2><h3 id="1-1互联网上的可扩展计算"><a href="#1-1互联网上的可扩展计算" class="headerlink" title="1.1互联网上的可扩展计算"></a>1.1互联网上的可扩展计算</h3><p>一个并行的、分布式的计算系统使用大量的计算机解决互联网上的大规模计算问题。<br>   分布式计算的缺点是数据敏感和网络中心化</p>
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yokeso.top/2021/01/03/Distributed-cloud-computing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="BigtreeLiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yokeso">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Distributed_cloud-computing
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-03 10:17:09" itemprop="dateCreated datePublished" datetime="2021-01-03T10:17:09+08:00">2021-01-03</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-07 22:58:11" itemprop="dateModified" datetime="2021-01-07T22:58:11+08:00">2021-01-07</time>
+      </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="第一章-分布式系统模型和关键技术"><a href="#第一章-分布式系统模型和关键技术" class="headerlink" title="第一章 分布式系统模型和关键技术"></a>第一章 分布式系统模型和关键技术</h2><h3 id="1-1互联网上的可扩展计算"><a href="#1-1互联网上的可扩展计算" class="headerlink" title="1.1互联网上的可扩展计算"></a>1.1互联网上的可扩展计算</h3><p>一个并行的、分布式的计算系统使用大量的计算机解决互联网上的大规模计算问题。<br>   分布式计算的缺点是数据敏感和网络中心化</p>
 <p><img src="/2021/01/03/Distributed-cloud-computing/image-20210103101834253.png" alt="image-20210103101834253"></p>
 <h3 id="计算范式之间区别"><a href="#计算范式之间区别" class="headerlink" title="计算范式之间区别"></a>计算范式之间区别</h3><p>集中式计算：计算资源存储在一个物理系统内，所有资源共享，紧耦合在一个集成式操作系统中</p>
 <p>并行计算：所有处理器紧耦合于中心共享内存或松耦合于分布式内存</p>
@@ -740,7 +567,7 @@
 </li>
 <li><p>采用工业标准的集成技术。</p>
 </li>
-<li><p>开发实现互操作性的标准。282283</p>
+<li><p>开发实现互操作性的标准。</p>
 </li>
 <li><p>在分布式的异构环境中集成、虚拟化和管理各种服务与资源。</p>
 </li>
@@ -806,8 +633,8 @@
 <ul>
 <li><p>分区 分为识别分区和计算分区</p>
 <ul>
-<li>计算分区：将指定任务分割为小任务，分区过程很大程度依靠正确识别可以并发执行的作业或程序的每一小部分</li>
-<li>数据分区：将输入或中间数据分割成更小部分。类似地，一旦识别出输入数据的并行性，它也可以被分割成多个部分，能在不同的工作机上运行。数据块可由程序的不同部分或者同一程序的副本来处理。</li>
+<li>计算分区：<strong>将指定任务分割为小任务</strong>，分区过程很大程度依靠正确识别可以并发执行的作业或程序的每一小部分</li>
+<li>数据分区：<strong>将输入或中间数据分割成更小部分</strong>。类似地，一旦识别出输入数据的并行性，它也可以被分割成多个部分，能在不同的工作机上运行。数据块可由程序的不同部分或者同一程序的副本来处理。</li>
 </ul>
 </li>
 <li><p>映射：把更小的程序部分或更小的数据分块分给底层的资源，过程目的在于合理分配这些部分或者分块，使它们能同时在不同的工作机上运行。由系统中的资源分配器处理</p>
@@ -835,828 +662,118 @@
 </li>
 </ul>
 
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
           
-            <div class='article_footer'>
-              
-                
-  
-    
-    
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>BigtreeLiu
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yokeso.top/2021/01/03/Distributed-cloud-computing/" title="Distributed_cloud-computing">http://yokeso.top/2021/01/03/Distributed-cloud-computing/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
 
 
-
-  
-
-  
-    
-    
-
-
-
-  
-
-  
-    
-    
-
-<section class="widget copyright  desktop mobile">
-  <div class='content'>
-    
-      <blockquote>
         
-          
-            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-          
-        
-          
-            <p>本文永久链接是：<a href=http://yokeso.top/2021/01/03/Distributed-cloud-computing/>http://yokeso.top/2021/01/03/Distributed-cloud-computing/</a></p>
-          
-        
-      </blockquote>
-    
-  </div>
-</section>
-
-  
-
-  
-    
-    
-
-<section class="widget qrcode  desktop mobile">
-  
-
-  <div class='content article-entry'>
-    
-      
-        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/qrcode/github@volantis.png'
-        
-          height='64px'
-        ></div>
-      
-    
-      
-        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/qrcode/github@volantis.png'
-        
-          height='64px'
-        ></div>
-      
-    
-  </div>
-</section>
-
-  
-
-
-              
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/01/CSAPP-summarize/" rel="prev" title="CSAPP-summarize">
+                  <i class="fa fa-chevron-left"></i> CSAPP-summarize
+                </a>
             </div>
-          
-        </div>
-        
-          
-
-
-  <section class='meta' id="footer-meta">
-    <div class='new-meta-box'>
-      
-        
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-05T15:46:10+08:00">
-  <a class='notlink'>
-    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jan 5, 2021</p>
-  </a>
-</div>
-
-        
-      
-        
-          
-
-        
-      
-        
-          
-
-        
-      
-        
-          
-  <div class="new-meta-item share -mob-share-list">
-  <div class="-mob-share-list share-body">
-    
-      
-        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
-          
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yokeso.top/2021/01/03/Distributed-cloud-computing/&title=Distributed_cloud-computing - Yokeso&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
-          
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yokeso.top/2021/01/03/Distributed-cloud-computing/&title=Distributed_cloud-computing - Yokeso&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
-          
-          href="http://service.weibo.com/share/share.php?url=http://yokeso.top/2021/01/03/Distributed-cloud-computing/&title=Distributed_cloud-computing - Yokeso&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
-          
-        </a>
-      
-    
-  </div>
-</div>
-
-
-
-        
-      
-    </div>
-  </section>
-
-
-        
-        
-          <div class="prev-next">
-            
-              <a class='prev' href='/2021/01/04/MapReduce/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>MapReduce</p>
-                <p class='content'>MapReduce原理及介绍MapReduce是一个软件框架，可以支持大规模数据集上的并行和分布式运算。抽象了分布式计算系统上运行一个并行程序的数据流，以函数形式提供给用户两个接口：Map（映射...</p>
-              </a>
-            
-            
-              <a class='next' href='/2020/12/01/CSAPP-summarize/'>
-                <p class='title'>CSAPP-summarize<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>CSAPP重要知识点总结第一章 — 计算机系统漫游1.Hello world的生命周期1.进程创建
-shell程序输入./hello,shell将其逐一读到寄存器里并放入内存。
-shell利用f...</p>
-              </a>
-            
+            <div class="post-nav-item">
+                <a href="/2021/01/04/MapReduce/" rel="next" title="MapReduce">
+                  MapReduce <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
           </div>
-        
-      </section>
-    </article>
-  
-
-  
-    
-
-  <article class="post white-box reveal comments shadow">
-    <section class="article typo">
-      <p ct><i class='fas fa-comments'></i> 评论</p>
-      
-      <section id="comments">
-        <div id="valine_container" class="valine_thread">
-  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
-</div>
-
-      </section>
-    </section>
+    </footer>
   </article>
-
-
-  
-
-
-
-
-<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
-
-
 </div>
-<aside class='l_side'>
-  
-  
-
-  
-    
-    
 
 
 
-  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
-    
-  <header>
-    
-      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
-    
-  </header>
-
-
-    <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一章-分布式系统模型和关键技术"><span class="toc-text">第一章 分布式系统模型和关键技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1互联网上的可扩展计算"><span class="toc-text">1.1互联网上的可扩展计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算范式之间区别"><span class="toc-text">计算范式之间区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分布式和云计算系统模型"><span class="toc-text">分布式和云计算系统模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协同计算机集群"><span class="toc-text">协同计算机集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#互联网云计算"><span class="toc-text">互联网云计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#性能、安全和节能"><span class="toc-text">性能、安全和节能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#性能度量"><span class="toc-text">性能度量</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三章-虚拟机集群和数据中心虚拟化"><span class="toc-text">第三章 虚拟机集群和数据中心虚拟化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-虚拟化的实现层次"><span class="toc-text">3.1 虚拟化的实现层次</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟化实现层次"><span class="toc-text">虚拟化实现层次</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VMM设计需求"><span class="toc-text">VMM设计需求</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#需求："><span class="toc-text">需求：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#资源："><span class="toc-text">资源：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作系统级虚拟化"><span class="toc-text">操作系统级虚拟化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2虚拟化的结构、工具与机制"><span class="toc-text">3.2虚拟化的结构、工具与机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#全虚拟化的二进制翻译"><span class="toc-text">全虚拟化的二进制翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译器支持的半虚拟化技术"><span class="toc-text">编译器支持的半虚拟化技术</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3CPU、内存和IO设备的虚拟化"><span class="toc-text">3.3CPU、内存和IO设备的虚拟化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟化的硬件支持"><span class="toc-text">虚拟化的硬件支持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU虚拟化"><span class="toc-text">CPU虚拟化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内存虚拟化"><span class="toc-text">内存虚拟化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#I-O虚拟化"><span class="toc-text">I&#x2F;O虚拟化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多核处理器虚拟化"><span class="toc-text">多核处理器虚拟化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-虚拟集群与资源管理"><span class="toc-text">3.4 虚拟集群与资源管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#物理集群与虚拟集群"><span class="toc-text">物理集群与虚拟集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#快速-部署和有效调度"><span class="toc-text">快速 部署和有效调度</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#快速部署："><span class="toc-text">快速部署：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#高性能虚拟存储"><span class="toc-text">高性能虚拟存储</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在线迁移虚拟机的步骤与性能影响"><span class="toc-text">在线迁移虚拟机的步骤与性能影响</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#管理虚拟集群的四种方式"><span class="toc-text">管理虚拟集群的四种方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟机迁移"><span class="toc-text">虚拟机迁移</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内存、文件与网络资源迁移"><span class="toc-text">内存、文件与网络资源迁移</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-数据中心的自动化与虚拟化"><span class="toc-text">3.5 数据中心的自动化与虚拟化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据中心服务器合并"><span class="toc-text">数据中心服务器合并</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟存储管理"><span class="toc-text">虚拟存储管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟化数据中心的可信管理"><span class="toc-text">虚拟化数据中心的可信管理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四章：构建在虚拟化数据中心上的云平台体系结构"><span class="toc-text">第四章：构建在虚拟化数据中心上的云平台体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-云计算和服务模型"><span class="toc-text">4.1 云计算和服务模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#公有云和私有云"><span class="toc-text">公有云和私有云</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#云设计目标"><span class="toc-text">云设计目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基础设施及服务（IaaS）"><span class="toc-text">基础设施及服务（IaaS）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#平台即服务（PaaS）"><span class="toc-text">平台即服务（PaaS）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#软件即服务（SaaS）"><span class="toc-text">软件即服务（SaaS）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-数据中心设计与互联网络"><span class="toc-text">4.2 数据中心设计与互联网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数据中心管理问题"><span class="toc-text">数据中心管理问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-计算与存储云体系结构设计"><span class="toc-text">4.3 计算与存储云体系结构设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通用云体系结构设计"><span class="toc-text">通用云体系结构设计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#云的关键技术"><span class="toc-text">云的关键技术</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#通用云体系结构"><span class="toc-text">通用云体系结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#层次化云体系结构开发"><span class="toc-text">层次化云体系结构开发</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟化支持和灾难恢复"><span class="toc-text">虚拟化支持和灾难恢复</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#体系结构设计挑战"><span class="toc-text">体系结构设计挑战</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第五章-面向服务的分布式体系结构"><span class="toc-text">第五章 面向服务的分布式体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#服务和面向服务体系结构"><span class="toc-text">服务和面向服务体系结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#REST和系统的系统"><span class="toc-text">REST和系统的系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WEB的核心技术"><span class="toc-text">WEB的核心技术</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#企业多层体系结构"><span class="toc-text">企业多层体系结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网络服务和OGSA"><span class="toc-text">网络服务和OGSA</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-面向消息的中间件"><span class="toc-text">5.2 面向消息的中间件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#企业总线"><span class="toc-text">企业总线</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#发布订阅模型和通知"><span class="toc-text">发布订阅模型和通知</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-门户和科学网关"><span class="toc-text">5.3 门户和科学网关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-发现、注册表、元数据和数据库"><span class="toc-text">5.4 发现、注册表、元数据和数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#UDDI和服务注册表"><span class="toc-text">UDDI和服务注册表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库和订阅-发布"><span class="toc-text">数据库和订阅-发布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#元数据目录"><span class="toc-text">元数据目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#语义Web和网络"><span class="toc-text">语义Web和网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#作业执行环境和监控"><span class="toc-text">作业执行环境和监控</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-面向服务的体系结构工作流"><span class="toc-text">5.5 面向服务的体系结构工作流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#工作流基本概念"><span class="toc-text">工作流基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工作流标准"><span class="toc-text">工作流标准</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工作流体系和规范"><span class="toc-text">工作流体系和规范</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工作流运行引擎"><span class="toc-text">工作流运行引擎</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第六章-云编程和软件环境"><span class="toc-text">第六章 云编程和软件环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-云和网络平台的特性"><span class="toc-text">6.1 云和网络平台的特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#网络和云的公共传统特征"><span class="toc-text">网络和云的公共传统特征</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据特性和数据库"><span class="toc-text">数据特性和数据库</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-并行和分布式编程范式"><span class="toc-text">6.2 并行和分布式编程范式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#并行计算和编程范式"><span class="toc-text">并行计算和编程范式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编程范式动机"><span class="toc-text">编程范式动机</span></a></li></ol></li></ol></li></ol>
-    </div>
-  </section>
-
-
-  
-
-
-</aside>
 
 
 
-    </div>
-    
-  
-  <footer class="clearfix">
-    <br><br>
-    
-      
-        <div class="aplayer-container">
-          
 
-  
-    <meting-js
-      theme='#1BCDFC'
-      autoplay='false'
-      volume='0.7'
-      loop='all'
-      order='list'
-      fixed='false'
-      list-max-height='320px'
-      server='netease'
-      type='playlist'
-      id='3175833810'
-      list-folded='true'>
-    </meting-js>
-  
-
-
-        </div>
-      
-    
-      
-        <br>
-        <div class="social-wrapper">
-          
-            
-              <a href="/atom.xml"
-                class="social fas fa-rss flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-            
-              <a href="mailto:me@xxx.com"
-                class="social fas fa-envelope flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-            
-              <a href="https://github.com/volantis-x/"
-                class="social fab fa-github flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-            
-              <a href="https://music.163.com/#/user/home?id=63035382"
-                class="social fas fa-headphones-alt flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-        </div>
-      
-    
-      
-        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
 </div>
-      
-    
-      
-        Use
-        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/3.0.0" target="_blank" class="codename">Volantis</a>
-        as theme, total visits
-          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-          times
-        
-      
-    
-      
-        <div class='copyright'>
-        <p><a href="/">Copyright © 2017-2020 XXX</a></p>
+  </main>
 
-        </div>
-      
-    
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yokeso</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">84k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:17</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
   </footer>
 
-
-    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
-  </div>
-  <div>
-    
-      
   
-
-  <div id="rightmenu-wrapper">
-    <ul class="list-v rightmenu" id="rightmenu-content">
-      <li class='option'>
-        <a class='vlts-menu opt fix-cursor-default' id='menu-copy-text' onclick='document.execCommand("copy")'><i class='fa fa-copy fa-fw'></i>Copy Text</a>
-        <hr id='hr-text'>
-        <a class='vlts-menu opt fix-cursor-default' id='menu-copy-href'><i class='fa fa-link fa-fw'></i>Copy Link</a>
-        <a class='vlts-menu opt fix-cursor-default' id='menu-open-href'><i class='fa fa-external-link-square-alt fa-fw'></i>Open Link in New Tab</a>
-        <hr id='hr-href'>
-        <a class='vlts-menu opt fix-cursor-default' id='menu-copy-src'><i class='fa fa-image fa-fw'></i>Copy Image Link</a>
-        <hr id='hr-src'>
-      </li>
-      
-        <li class='navigation'>
-          <a class='nav icon-only fix-cursor-default' onclick='history.back()'><i class='fa fa-arrow-left fa-fw'></i></a>
-          <a class='nav icon-only fix-cursor-default' onclick='history.forward()'><i class='fa fa-arrow-right fa-fw'></i></a>
-          <a class='nav icon-only fix-cursor-default' onclick='window.location.reload()'><i class='fa fa-redo fa-fw'></i></a>
-          <a class='nav icon-only fix-cursor-default' href='/'><i class='fa fa-home fa-fw'></i></a>
-        </li>
-      
-      <hr>
-      
-        
-      
-        
-          
-    <li>
-      <a class='vlts-menu fix-cursor-default' href=https://volantis.js.org/faqs/
-        
-        
-        
-        
-          id="https:volantisjsorgfaqs"
-        >
-        <i class='fa fa-question fa-fw'></i> 常见问题
-      </a>
-    </li>
-  
-        
-      
-        
-          
-    <li>
-      <a class='vlts-menu fix-cursor-default' href=https://volantis.js.org/examples/
-        
-        
-        
-        
-          id="https:volantisjsorgexamples"
-        >
-        <i class='fa fa-rss fa-fw'></i> 示例博客
-      </a>
-    </li>
-  
-        
-      
-        
-          
-    <li>
-      <a class='vlts-menu fix-cursor-default' href=https://volantis.js.org/contributors/
-        
-        
-        
-        
-          id="https:volantisjsorgcontributors"
-        >
-        <i class='fa fa-fan fa-spin fa-fw'></i> 加入社区
-      </a>
-    </li>
-  
-        
-      
-        
-          <hr>
-        
-      
-        
-          
-    <li>
-      <a class='vlts-menu fix-cursor-default' href=https://github.com/volantis-x/volantis-docs/
-        
-        
-        
-        
-          id="https:githubcomvolantis-xvolantis-docs"
-        >
-        <i class='fa fa-code-branch fa-fw'></i> 本站源码
-      </a>
-    </li>
-  
-        
-      
-        
-          
-    <li>
-      <a class='vlts-menu fix-cursor-default' href=https://github.com/volantis-x/hexo-theme-volantis/
-        
-        
-        
-        
-          id="https:githubcomvolantis-xhexo-theme-volantis"
-        >
-        <i class='fa fa-code-branch fa-fw'></i> 主题源码
-      </a>
-    </li>
-  
-        
-      
-        
-          <hr>
-        
-      
-        
-          
-    <li>
-      <a class='vlts-menu fix-cursor-default' 
-        
-        
-        
-          onclick="document.execCommand('print')"
-        
-        >
-        <i class='fa fa-print fa-fw'></i> 打印页面
-      </a>
-    </li>
-  
-        
-      
-        
-          <hr>
-        
-      
-        
-          <li class='music name'>
-            <p class='nav music-title fix-cursor-default'></p>
-          </li>
-          <li class='music ctrl'>
-            <a class='nav icon-only backward fix-cursor-default' onclick='aplayerBackward()'><i class='fa fa-step-backward fa-fw'></i></a>
-            <a class='nav icon-only toggle fix-cursor-default' onclick='aplayerToggle()'><i class='fa fa-play fa-fw'></i></a>
-            <a class='nav icon-only forward fix-cursor-default' onclick='aplayerForward()'><i class='fa fa-step-forward fa-fw'></i></a>
-          </li>
-          <li class='music volume'>
-            <a class='nav volume'>
-              <div class="aplayer-volume-bar-wrap">
-                <div class="aplayer-volume-bar fix-cursor-pointer">
-                  <div class="aplayer-volume"></div>
-                  <i class='left fa fa-volume-off fa-fw'></i>
-                  <i class='right fa fa-volume-up fa-fw'></i>
-                </div>
-              </div>
-            </a>
-          </li>
-        
-      
-    </ul>
-  </div>
-
-  <script>
-    window.document.oncontextmenu = function (event) {
-      if (event.ctrlKey) return true;
-      if (/Android|webOS|BlackBerry/i.test(navigator.userAgent)) return true;
-      return popMenu(event);
-    };
-    document.addEventListener("click", function (event) {
-      var mymenu = document.getElementById('rightmenu-wrapper');
-      mymenu.style.display = "none";
-    });
-    function popMenu(event) {
-      var mymenu = document.getElementById('rightmenu-wrapper');
-      var menuContent = document.getElementById('rightmenu-content');
-      var screenWidth = document.documentElement.clientWidth || document.body.clientWidth;
-      var screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
-      mymenu.style.left = event.clientX + "px"; // 获取鼠标位置
-      mymenu.style.top = event.clientY + "px";
-      mymenu.style.display = 'block';
-      if (event.clientX * 2 > screenWidth) {
-        menuContent.classList.add('left');
-      } else {
-        menuContent.classList.remove('left');
-      }
-      if (event.clientY * 2 > screenHeight) {
-        menuContent.classList.add('top');
-      } else {
-        menuContent.classList.remove('top');
-      }
-
-      let hrText = document.getElementById('hr-text');
-      let hrSrc = document.getElementById('hr-src');
-      let hrHref = document.getElementById('hr-href');
-
-      // 选中图片
-      let copySrc = document.getElementById('menu-copy-src');
-      if (copySrc != undefined) {
-        if (event.target.currentSrc) {
-          copySrc.style.display = 'block';
-          copySrc.addEventListener("click", function (e) {
-            copyString(event.target.currentSrc);
-          },{once: true});
-          hrSrc.style.display = 'block';
-        } else {
-          copySrc.style.display = 'none';
-          hrSrc.style.display = 'none';
-        }
-      }
-
-      // 选中按钮
-      // 判断是不是按钮
-      let href = '';
-      if (event.path) {
-        for (i = 0; i < event.path.length; i++) {
-          if (event.path[i].href != undefined && event.path[i].href.length > 0) {
-            href = event.path[i].href;
-          }
-        }
-      }
-
-      let copyText = document.getElementById('menu-copy-text');
-      copyText.style.display = 'none';
-      hrText.style.display = 'none';
-      if (href.length == 0) {
-        // 选中文本
-        if (window.getSelection().toString()) {
-          copyText.style.display = 'block';
-          hrText.style.display = 'block';
-        }
-      }
-
-      // 在新标签页打开
-      let openHref = document.getElementById('menu-open-href');
-      if (openHref != undefined) {
-        if (href.length > 0) {
-          openHref.style.display = 'block';
-          openHref.addEventListener("click", function (e) {
-            window.open(href);
-          },{once: true});
-          hrHref.style.display = 'block';
-        } else {
-          openHref.style.display = 'none';
-          hrHref.style.display = 'none';
-        }
-      }
-      // 复制链接
-      let copyHref = document.getElementById('menu-copy-href');
-      if (copyHref != undefined) {
-        if (href.length > 0) {
-          copyHref.style.display = 'block';
-          copyHref.addEventListener("click", function (e) {
-            copyString(href);
-          },{once: true});
-        } else {
-          copyHref.style.display = 'none';
-        }
-      }
-
-      // 有音乐播放器
-      if (true == true) {
-        // 如果有aplayer，初始化一下
-      	try {
-      		checkAPlayer();
-          updateTitle();
-      	} catch (error) {
-      		console.log(error);
-      	}
-      }
-
-      return false; // 该行代码确保系统自带的右键菜单不会被调出
-    }
-    function hideMenu() {
-      document.getElementById('rightmenu-wrapper').style.display = 'none';
-    }
-    function copyString(str) {
-      const input = document.createElement('input');
-      input.setAttribute('readonly', 'readonly');
-      document.body.appendChild(input);
-      input.setAttribute('value', str);
-      input.select();
-      document.execCommand('copy');
-      document.body.removeChild(input);
-    }
-    document.execCommand('click');
-  </script>
-
-
-    
-    <!-- required -->
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
-
-
-<!-- optional -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
   
-  
-  
-    
-<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
-
-    <script type="text/javascript">
-      $(function(){
-        var imgs=["https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/001.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/002.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/003.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/004.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/005.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/006.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/012.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/016.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/019.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/025.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/034.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/035.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/038.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/039.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/042.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/046.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/051.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/052.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/054.jpg", "https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/056.jpg"];
-        if ('true' == 'true') {
-          function shuffle(arr){
-            /*From countercurrent-time*/
-            var n = arr.length;
-            while(n--) {
-              var index = Math.floor(Math.random() * n);
-              var temp = arr[index];
-              arr[index] = arr[n];
-              arr[n] = temp;
-            }
-          }
-          shuffle(imgs);
-        }
-        if ('.cover') {
-          $('.cover').backstretch(
-            imgs,
-          {
-            duration: "10000",
-            fade: "1500"
-          });
-        } else {
-          $.backstretch(
-            imgs,
-          {
-            duration: "10000",
-            fade: "1500"
-          });
-        }
-      });
-    </script>
-  
-
-
-
-  <script>
-  
-  var SEARCH_SERVICE = "hexo" || "hexo";
-  var ROOT = "/" || "/";
-  if (!ROOT.endsWith('/')) ROOT += '/';
-</script>
-
-
-
-
-
-
-  <script async src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
-
-
-<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-<script>
-  function pjax_fancybox() {
-    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
-      var element = document.createElement("a"); // a 标签
-      $(element).attr("class", "fancybox");
-      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
-      $(element).attr("href", $(this).attr("src"));
-      if ($(this).attr("data-original")) {
-        $(element).attr("href", $(this).attr("data-original"));
-      }
-      $(element).attr("data-fancybox", "images");
-      var caption = "";   // 描述信息
-      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
-        $(element).attr('data-caption', $(this).attr('alt'));
-        caption = $(this).attr('alt');
-      }
-      var div = document.createElement("div");
-      $(div).addClass("fancybox");
-      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
-      var span = document.createElement("span");
-      $(span).addClass("image-caption");
-      $(span).text(caption); // 加描述
-      $(this).after(span);  // 再套一层描述
-      $(this).wrap(element);  // 最后套 a 标签
-    })
-    $(".article-entry").find("img").fancybox({
-      selector: '[data-fancybox="images"]',
-      hash: false,
-      loop: false,
-      closeClick: true,
-      helpers: {
-        overlay: {closeClick: true}
-      },
-      buttons: [
-        "zoom",
-        "close"
-      ]
-    });
-  };
-  $(function () {
-    pjax_fancybox();
-  });
-</script>
-
-
-  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-<script>
-    var clipboard = new ClipboardJS('.btn-copy', {
-        target: function (trigger) {
-            return trigger.nextElementSibling
-        }
-    });
-    function wait(callback, seconds) {
-        var timelag = null;
-        timelag = window.setTimeout(callback, seconds)
-    }
-    function pjax_initCopyCode() {
-        var copyHtml = '';
-        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
-        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
-        copyHtml += '</button>';
-        $(".highlight .code pre").before(copyHtml);
-        $(".article pre code").before(copyHtml);
-        clipboard.off('success').on('success', function (e) {
-            let $btn = $(e.trigger);
-            $btn.addClass('copied');
-            let $icon = $($btn.find('i'));
-            $icon.removeClass('fa-copy');
-            $icon.addClass('fa-check-circle');
-            let $span = $($btn.find('span'));
-            $span[0].innerText = 'COPIED';
-            wait(function () {
-                $icon.removeClass('fa-check-circle');
-                $icon.addClass('fa-copy');
-                $span[0].innerText = 'COPY'
-            }, 2000)
-        });
-        clipboard.off('error').on('error', function (e) {
-            e.clearSelection();
-            let $btn = $(e.trigger);
-            $btn.addClass('copy-failed');
-            let $icon = $($btn.find('i'));
-            $icon.removeClass('fa-copy');
-            $icon.addClass('fa-times-circle');
-            let $span = $($btn.find('span'));
-            $span[0].innerText = 'COPY FAILED';
-            wait(function () {
-                $icon.removeClass('fa-times-circle');
-                $icon.addClass('fa-copy');
-                $span[0].innerText = 'COPY'
-            }, 2000)
-        })
-    }
-    $(function () {
-        pjax_initCopyCode()
-    });
-</script>
-
-
-
-   <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
-<script type="text/javascript">
-  function pjax_scrollrebeal() {
-    ScrollReveal().reveal('.l_main .reveal', {
-      distance: '32px',
-      duration: '800',
-      interval: '20',
-      scale: '1',
-      easing: 'ease-out'
-    });
-  }
-  $(function () {
-    pjax_scrollrebeal();
-  });
-</script>
-
-
-
-
-  <script>
-  let APlayerController = new Object();
-  APlayerController.id = '3175833810';  // 设定全局音乐播放ID
-  APlayerController.volume = '0.7';
-</script>
-
-  
-<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
-
-
-  
-<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
-
-
-  
-<script src="/js/aplayer.js"></script>
 
 
 
@@ -1664,247 +781,10 @@ shell利用f...</p>
 
 
   
-  
-<script src="/js/valine.js"></script>
-
-
-<script>
-  var GUEST_INFO = ['nick', 'mail', 'link'];
-  var meta = 'nick,mail,link'.split(',').filter(function (item) {
-    return GUEST_INFO.indexOf(item) > -1
-  });
-  var REQUIRED_FIELDS = ['nick', 'mail', 'link'];
-  var requiredFields = 'nick,mail'.split(',').filter(function (item) {
-    return REQUIRED_FIELDS.indexOf(item) > -1
-  });
-
-  function emoji(path, idx, ext) {
-    return path + "/" + path + "-" + idx + "." + ext;
-  }
-
-  var emojiMaps = {};
-  for (var i = 1; i <= 54; i++) {
-    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
-  }
-  for (var i = 1; i <= 101; i++) {
-    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
-  }
-  for (var i = 1; i <= 116; i++) {
-    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
-  }
-  for (var i = 1; i <= 125; i++) {
-    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
-  }
-  for (var i = 1; i <= 4; i++) {
-    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
-  }
-
-  function pjax_valine() {
-    let pageUrl = $.trim($('#pjax-comment-path').text()) === "none" ? 
-      decodeURI(window.location.pathname) : $.trim($('#pjax-comment-path').text());
-    let pagePlaceholder = $.trim($('#pjax-comment-placeholder').text()) === "none" ?
-      "快来评论吧~" : $.trim($('#pjax-comment-placeholder').text());
-
-    let ALLPATH = '';
-    if(ALLPATH != '') pageUrl = ALLPATH;
-
-    var valine = new Valine();
-    valine.init({
-      el: '#valine_container',
-      meta: meta,
-      placeholder: pagePlaceholder,
-      path: pageUrl,
-      appId: "",
-      appKey: "",
-      pageSize: '10',
-      avatar: 'robohash',
-      lang: 'zh-cn',
-      visitor: 'true',
-      highlight: 'true',
-      mathJax: 'false',
-      enableQQ: 'true',
-      requiredFields: requiredFields,
-      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
-      emojiMaps: emojiMaps
-    })
-  }
-
-  $(function () {
-    pjax_valine();
-  });
-</script>
 
 
 
 
 
-
-  <script defer src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js" data-pjax></script>
-
-
-  
-<script src="/js/app.js"></script>
-
-
-
-
-  
-    
-<script src="/js/search.js"></script>
-
-  
-
-
-
-
-  
-<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
-
-  <script type="text/javascript">
-    $(function () {
-      Waves.attach('.flat-btn', ['waves-button']);
-      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
-      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
-      Waves.attach('.flat-box', ['waves-block']);
-      Waves.attach('.float-box', ['waves-block', 'waves-float']);
-      Waves.attach('.waves-image');
-      Waves.init();
-    });
-  </script>
-
-
-
-
-
-
-
-<!-- more -->
-
-
-    
-      
-
-
-<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
-
-<!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
-
-<div class="pjax-animate">
-  
-    <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
-    <div id="loading-bar-wrapper"><script>NProgress.configure({parent:"#loading-bar-wrapper",trickleSpeed: 100})</script></div>
-    <script>
-      window.ShowLoading = function() {
-        NProgress.start();
-      };
-      window.HideLoading = function() {
-        NProgress.done();
-      }
-    </script>
-  
-</div>
-
-<script>
-    var pjax;
-    document.addEventListener('DOMContentLoaded', function () {
-      pjax = new Pjax({
-        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
-        selectors: [
-          "title",
-          "#pjax-container",
-          "#pjax-header-nav-list"
-        ],
-        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
-        timeout: 5000
-      });
-    });
-
-    document.addEventListener('pjax:send', function (e) {
-      window.stop(); // 相当于点击了浏览器的停止按钮
-
-      try {
-        var currentUrl = window.location.pathname;
-        var targetUrl = e.triggerElement.href;
-        var banUrl = [""];
-        if (banUrl[0] != "") {
-          banUrl.forEach(item => {
-            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
-              window.location.href = targetUrl;
-            }
-          });
-        }
-      } catch (error) {}
-
-      window.subData = null; // 移除标题（用于一二级导航栏切换处）
-      $.fancybox.close();    // 关闭弹窗
-      $('.l_header .switcher .s-search').removeClass('active'); // 关闭移动端激活的搜索框
-      $('.l_header').removeClass('z_search-open'); // 关闭移动端激活的搜索框
-      $('.wrapper').removeClass('sub'); // 跳转页面时关闭二级导航
-
-      // 解绑事件 避免重复监听
-      $('.s-top').unbind('click');
-      $('.menu a').unbind('click');
-      $(window).unbind('resize');
-      $(window).unbind('scroll');
-      $(document).unbind('scroll');
-      $(document).unbind('click');
-      $('body').unbind('click');
-      window.ShowLoading();
-    });
-
-    document.addEventListener('pjax:complete', function () {
-      // 关于百度统计对 SPA 页面的处理：
-      // 方案一：百度统计>管理>单页应用设置中，打开开启按钮即可对SPA进行统计。 https://tongji.baidu.com/web/help/article?id=324
-      // 方案二：取消注释下列代码。 https://tongji.baidu.com/web/help/article?id=235
-      // 
-
-      // 关于谷歌统计对 SPA 页面的处理：
-      // 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
-      // https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
-      
-
-      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
-      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
-      $('script[data-pjax], .pjax-reload script').each(function () {
-        $(this).parent().append($(this).remove());
-      });
-      try{
-        pjax_fancybox();
-        
-          
-          if ('.cover') {
-            $('.cover').backstretch("resize");
-          } else {
-            $.backstretch("resize");
-          }
-        
-        
-        
-          pjax_scrollrebeal();
-        
-        
-          pjax_initCopyCode();
-        
-        
-          pjax_valine();
-        
-        
-        
-        
-        
-      } catch (e) {
-        console.log(e);
-      }
-      window.HideLoading();
-    });
-
-    document.addEventListener('pjax:error', function (e) {
-      window.HideLoading();
-      window.location.href = e.triggerElement.href;
-    });
-</script>
-
-    
-  </div>
 </body>
 </html>
